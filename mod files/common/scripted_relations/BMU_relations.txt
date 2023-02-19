@@ -1,0 +1,20 @@
+﻿supporter = {
+	corresponding = supported_claimant
+	# hidden = yes
+}
+
+supported_claimant = {
+	corresponding = supporter
+	opinion = 20
+	# hidden = yes
+}
+
+contender = {
+	corresponding = contested_claimant
+	# hidden = yes
+}
+
+contested_claimant = {
+	corresponding = contender
+	# hidden = yes
+}

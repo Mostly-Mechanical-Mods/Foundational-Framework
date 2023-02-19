@@ -1,0 +1,5 @@
+﻿FF_FSB_is_loaded_sgui = {
+	is_shown = {
+		fullscreen_barbershop = yes
+	}
+}

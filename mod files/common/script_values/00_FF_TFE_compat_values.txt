@@ -1,0 +1,1 @@
+﻿FF_loyalty_gupta_government = 0

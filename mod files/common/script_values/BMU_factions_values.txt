@@ -1,0 +1,477 @@
+﻿faction_effect_interval = define:NFaction|UPDATE_INTERVAL_DAYS
+
+
+StA_claimant_faction_create_score = {
+	value = -25
+
+}
+
+StA_common_create_faction_blockers = {
+	if = {
+		limit = { is_at_war = yes }
+		subtract = 1000
+	}
+	if = {
+		limit = {
+			save_temporary_opinion_value_as = { name = target_opinion target = scope:target }
+			scope:target_opinion >= 80
+		}
+		subtract = 1000
+	}
+}
+
+# scope:title.holder = FACTION_TARGET
+
+BMU_claimant_score = {
+	if = {
+		limit = {
+			save_temporary_scope_as = FACTION_CLAIMANT
+			ROOT.primary_title.var:StA_title_allegiance.holder = { save_temporary_scope_as = FACTION_TARGET }
+			ROOT = {
+				save_temporary_opinion_value_as = {
+					name = CONTENDER_opinion
+					target = scope:FACTION_CLAIMANT
+				}
+				save_temporary_opinion_value_as = {
+					name = TARGET_opinion
+					target = scope:FACTION_TARGET
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = incapable
+				has_government = theocracy_government
+			}
+		}
+		add = -1000
+	}
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					faith = { has_doctrine = doctrine_gender_female_dominated }
+					scope:FACTION_CLAIMANT = {
+						is_male = yes
+						faith = ROOT.faith
+					}
+				}
+				AND = {
+					faith = { has_doctrine = doctrine_gender_male_dominated }
+					scope:FACTION_CLAIMANT = {
+						is_female = yes
+						faith = ROOT.faith
+					}
+				}
+			}
+		}
+		add = -50
+	}
+	# Gender concerns (target of wrong gender)
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					faith = { has_doctrine = doctrine_gender_female_dominated }
+					scope:FACTION_TARGET = { is_male = yes }
+					scope:FACTION_CLAIMANT = {
+						is_female = yes
+						faith = ROOT.faith
+					}
+				}
+				AND = {
+					faith = { has_doctrine = doctrine_gender_male_dominated }
+					scope:FACTION_TARGET = { is_female = yes }
+					scope:FACTION_CLAIMANT = {
+						is_male = yes
+						faith = ROOT.faith
+					}
+				}
+			}
+		}
+		add = 25
+	}
+	# Powerful vassals will be even more motivated to create claimant if unhappy with liege, if they like the claimant more than their liege
+	if = {
+		limit = {
+			ROOT = {
+				is_powerful_vassal_of = scope:FACTION_TARGET
+				scope:CONTENDER_opinion > scope:TARGET_opinion
+			}
+		}
+		add = scope:TARGET_opinion
+		multiply = -1.5
+		min = 0
+	}
+	# They do not like the claimant more than their liege, unless its a claimant of their own culture
+	if = {
+		limit = {
+			NAND = {
+				culture = scope:FACTION_CLAIMANT.culture
+				NOT = { CULTURE = scope:FACTION_TARGET.culture }
+			}
+			ROOT = {
+				has_variable = opinion_liege
+				scope:CONTENDER_opinion < scope:TARGET_opinion
+			}
+		}
+		add = -25
+	}
+	# Opinion of the potential Claimant (not self)
+	add = scope:CONTENDER_opinion
+	multiply = 1.5
+	# Claimant is too old
+	if = {
+		limit = { scope:FACTION_CLAIMANT.age > 45 }
+		add = {
+			value = scope:FACTION_CLAIMANT.age
+			subtract = 45
+			multiply = -2
+		}
+	}
+	# Claimant is too young
+	if = {
+		limit = { scope:FACTION_CLAIMANT = { is_adult = no }}
+		add = -25
+	}
+	# Claimant is dying
+	if = {
+		limit = { scope:FACTION_CLAIMANT.health < 1.5 }
+		add = {
+			value = 1.5
+			subtract = scope:FACTION_CLAIMANT.health
+			multiply = -20
+		}
+	}
+	if = {
+		limit = {
+			scope:FACTION_CLAIMANT = {
+				fertility <= 0.1
+				any_child = { count = 0 }
+			}
+		}
+		add = -50
+	}
+	# Infirmity of claimant
+	if = {
+		limit = { has_trait = infirm }
+		add = -50
+	}
+	if = {
+		limit = {
+			ROOT = {
+				OR = {
+					has_secret_relation_lover = scope:FACTION_CLAIMANT
+					has_relation_lover = scope:FACTION_CLAIMANT
+					has_relation_soulmate = scope:FACTION_CLAIMANT
+					has_relation_friend = scope:FACTION_CLAIMANT
+					has_relation_best_friend = scope:FACTION_CLAIMANT
+				}
+			}
+		}
+		add = 50
+	}
+	if = {
+		limit = {
+			ROOT = {
+				OR = {
+					has_relation_soulmate = scope:FACTION_CLAIMANT
+					has_relation_best_friend = scope:FACTION_CLAIMANT
+				}
+			}
+		}
+		add = 100
+	}
+	if = {
+		limit = {
+			ROOT.culture = {
+				NOR = {
+					THIS = scope:FACTION_TARGET.culture
+					cultural_acceptance = { target = scope:FACTION_TARGET.culture value >= 90 }
+					has_cultural_parameter = doesnt_care_about_culture_faith_in_factions
+				}
+				OR = {
+					THIS = scope:FACTION_CLAIMANT.culture
+					cultural_acceptance = { target = scope:FACTION_CLAIMANT.culture value >= 90 }
+				}
+			}
+		}
+		add = 50
+		ROOT.culture = {
+			if = {
+				limit = { THIS = scope:FACTION_CLAIMANT.culture }
+				add = 50
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:FACTION_TARGET value <= 20 }}
+				add = 25
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:FACTION_TARGET value <= 35 }}
+				add = 15
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:FACTION_TARGET value <= 50 }}
+				add = 10
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:FACTION_TARGET value <= 70 }}
+				add = 5
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:FACTION_TARGET.culture value <= 80 }}
+				add = 5
+			}
+		}
+		if = {
+			limit = { scope:FACTION_TARGET = { knows_language_of_culture = ROOT.culture }}
+			multiply = 0.5
+		}
+		if = {
+			limit = { ROOT.primary_title.var:StA_title_allegiance = { has_title_law = princely_elective_succession_law }}
+			multiply = 0.25
+		}
+	}
+	if = {
+		limit = {
+			ROOT = {
+				NOT = { faith = scope:FACTION_TARGET.faith }
+				faith = scope:FACTION_CLAIMANT.faith
+				NOT = { culture = { has_cultural_parameter = doesnt_care_about_culture_faith_in_factions }}
+			}
+		}
+		add = 100
+	}
+}
+
+# requires scope:story
+BMU_prev_support_score_vs_target = {
+	if = {
+		limit = {
+			prev = { save_temporary_scope_as = POV }
+			save_temporary_scope_as = CONTENDER
+			scope:story.story_owner = { save_temporary_scope_as = TARGET }
+			prev = {
+				save_temporary_opinion_value_as = {
+					name = CONTENDER_opinion
+					target = scope:CONTENDER
+				}
+				save_temporary_opinion_value_as = {
+					name = TARGET_opinion
+					target = scope:TARGET
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = incapable
+				has_government = theocracy_government
+			}
+		}
+		add = -1000
+	}
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					faith = { has_doctrine = doctrine_gender_female_dominated }
+					scope:FACTION_CLAIMANT = {
+						is_male = yes
+						faith = scope:POV.faith
+					}
+				}
+				AND = {
+					faith = { has_doctrine = doctrine_gender_male_dominated }
+					scope:FACTION_CLAIMANT = {
+						is_female = yes
+						faith = scope:POV.faith
+					}
+				}
+			}
+		}
+		add = -50
+	}
+	# Gender concerns (target of wrong gender)
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					faith = { has_doctrine = doctrine_gender_female_dominated }
+					scope:FACTION_TARGET = { is_male = yes }
+					scope:FACTION_CLAIMANT = {
+						is_female = yes
+						faith = scope:POV.faith
+					}
+				}
+				AND = {
+					faith = { has_doctrine = doctrine_gender_male_dominated }
+					scope:FACTION_TARGET = { is_female = yes }
+					scope:FACTION_CLAIMANT = {
+						is_male = yes
+						faith = scope:POV.faith
+					}
+				}
+			}
+		}
+		add = 25
+	}
+	# Powerful vassals will be even more motivated to create claimant if unhappy with liege, if they like the claimant more than their liege
+	if = {
+		limit = {
+			ROOT = {
+				is_powerful_vassal_of = scope:TARGET
+				scope:CONTENDER_opinion > scope:TARGET_opinion
+			}
+		}
+		add = scope:TARGET_opinion
+		multiply = -1.5
+		min = 0
+	}
+	# They do not like the claimant more than their liege, unless its a claimant of their own culture
+	if = {
+		limit = {
+			NAND = {
+				culture = scope:CONTENDER.culture
+				NOT = { CULTURE = scope:TARGET.culture }
+			}
+			ROOT = {
+				has_variable = opinion_liege
+				scope:CONTENDER_opinion < scope:TARGET_opinion
+			}
+		}
+		add = -25
+	}
+	# Opinion of the potential Claimant (not self)
+	add = scope:CONTENDER_opinion
+	multiply = 1.5
+	# Claimant is too old
+	if = {
+		limit = { scope:CONTENDER.age > 45 }
+		add = {
+			value = scope:CONTENDER.age
+			subtract = 45
+			multiply = -2
+		}
+	}
+	# Claimant is too young
+	if = {
+		limit = { scope:CONTENDER = { is_adult = no }}
+		add = -25
+	}
+	# Claimant is dying
+	if = {
+		limit = { scope:CONTENDER.health < 1.5 }
+		add = {
+			value = 1.5
+			subtract = scope:CONTENDER.health
+			multiply = -20
+		}
+	}
+	if = {
+		limit = {
+			scope:CONTENDER = {
+				fertility <= 0.1
+				any_child = { count = 0 }
+			}
+		}
+		add = -50
+	}
+	# Infirmity of claimant
+	if = {
+		limit = { has_trait = infirm }
+		add = -50
+	}
+	if = {
+		limit = {
+			scope:POV = {
+				OR = {
+					has_secret_relation_lover = scope:CONTENDER
+					has_relation_lover = scope:CONTENDER
+					has_relation_soulmate = scope:CONTENDER
+					has_relation_friend = scope:CONTENDER
+					has_relation_best_friend = scope:CONTENDER
+				}
+			}
+		}
+		add = 50
+	}
+	if = {
+		limit = {
+			scope:POV = {
+				OR = {
+					has_relation_soulmate = scope:CONTENDER
+					has_relation_best_friend = scope:CONTENDER
+				}
+			}
+		}
+		add = 100
+	}
+	if = {
+		limit = {
+			scope:POV.culture = {
+				NOR = {
+					THIS = scope:TARGET.culture
+					cultural_acceptance = { target = scope:TARGET.culture value >= 90 }
+					has_cultural_parameter = doesnt_care_about_culture_faith_in_factions
+				}
+				OR = {
+					THIS = scope:CONTENDER.culture
+					cultural_acceptance = { target = scope:CONTENDER.culture value >= 90 }
+				}
+			}
+		}
+		add = 50
+		scope:POV.culture = {
+			if = {
+				limit = { THIS = scope:CONTENDER.culture }
+				add = 50
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:TARGET value <= 20 }}
+				add = 25
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:TARGET value <= 35 }}
+				add = 15
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:TARGET value <= 50 }}
+				add = 10
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:TARGET value <= 70 }}
+				add = 5
+			}
+			if = {
+				limit = { cultural_acceptance = { target = scope:TARGET.culture value <= 80 }}
+				add = 5
+			}
+		}
+		if = {
+			limit = { scope:TARGET = { knows_language_of_culture = scope:POV.culture }}
+			multiply = 0.5
+		}
+		if = {
+			limit = { scope:story.var:claimed_title = { has_title_law = princely_elective_succession_law }}
+			multiply = 0.25
+		}
+	}
+	if = {
+		limit = {
+			scope:POV = {
+				NOT = { faith = scope:TARGET.faith }
+				OR = {
+					faith = scope:CONTENDER.faith
+					faith = { faith_hostility_level = { target = scope:CONTENDER.faith value = 0 }}
+				}
+				faith = { faith_hostility_level = { target = scope:TARGET.faith value >= 1 }}
+				NOT = { culture = { has_cultural_parameter = doesnt_care_about_culture_faith_in_factions }}
+			}
+		}
+		add = 100
+	}
+}

@@ -1,0 +1,56 @@
+﻿BMU_claimant_faction_modifiers = {
+	modifier = {
+		add = -1000
+		has_opinion_modifier = {
+			modifier = claimant_faction_member_opinion
+			target = $FACTION_TARGET$
+		}
+	}
+	# Legacy
+	modifier = {
+		add = -20
+		$FACTION_TARGET$ = {
+			exists = dynasty
+			dynasty = {
+				has_dynasty_perk = glory_legacy_4
+			}
+		}
+	}
+
+	# Friends & Lovers don't want to join
+	modifier = {
+		add = -500
+		OR = {
+			has_secret_relation_lover = $FACTION_TARGET$
+			has_relation_lover = $FACTION_TARGET$
+			has_relation_soulmate = $FACTION_TARGET$ 
+			has_relation_friend = $FACTION_TARGET$
+			has_relation_best_friend = $FACTION_TARGET$
+		}
+	}
+
+	# Liege is too young to rule
+	modifier = {
+		add = 25
+		$FACTION_TARGET$ = { is_adult = no }
+	}
+
+	# If I'm not a de jure vassal of my liege, and my liege is independent, prefer to create an independence faction
+	modifier = {
+		add = -200
+		liege = { is_independent_ruler = yes }
+		NOT = {
+			is_rightful_liege_of_trigger = {
+				VASSAL = root
+				LIEGE = $FACTION_TARGET$
+			}
+		}
+	}
+
+	#More likely to create a claimant faction against a Ruler below their CGLevel
+	modifier = {
+		add = 50
+		$FACTION_TARGET$.court_grandeur_current_level < $FACTION_TARGET$.court_grandeur_minimum_expected_level
+	}
+
+}

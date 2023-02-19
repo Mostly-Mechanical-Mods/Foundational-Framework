@@ -1,0 +1,26 @@
+﻿contender = {
+	alias = { contenders }
+}
+
+stakeholder = {
+	alias = { stakeholders }
+}
+
+supporter = {
+	alias = { supporters }
+}
+
+BMU_pressed_claim = {
+}
+
+contention_phase = {
+}
+
+rallying_phase = {
+}
+
+bargaining_phase = {
+}
+
+declaration_phase = {
+}

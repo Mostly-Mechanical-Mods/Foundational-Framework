@@ -1,0 +1,32 @@
+﻿title_has_high_authority_capacity = {
+	global = GLOBAL_TITLE_HAS_HIGH_AUTHORITY_CAPACITY
+	global_not = NOT_GLOBAL_TITLE_HAS_HIGH_AUTHORITY_CAPACITY
+}
+
+title_has_medium_authority_capacity = {
+	global = GLOBAL_TITLE_HAS_MEDIUM_AUTHORITY_CAPACITY
+	global_not = NOT_GLOBAL_TITLE_HAS_MEDIUM_AUTHORITY_CAPACITY	
+}
+
+no_held_duchy_in_HRE_has_low_authority_capacity = {
+	first = FIRST_HELD_DUCHY_HAS_LOW_AUTHORITY_CAPACITY
+}
+
+StA_title_has_realm_law = {
+	first = FIRST_TITLE_HAS_REALM_LAW
+	third = THIRD_TITLE_HAS_REALM_LAW
+}
+
+StA_title_has_enough_authority_for_elective_law = {
+	first = FIRST_TITLE_HAS_ENOUGH_AUTHORITY_FOR_ELECTIVE_LAW
+	third = THIRD_TITLE_HAS_ENOUGH_AUTHORITY_FOR_ELECTIVE_LAW
+}
+
+TEST_FACTION = {
+	first = TEST_FACTION_LOC
+	first_not = TEST_FACTION_LOC
+	third = TEST_FACTION_LOC
+	third_not = TEST_FACTION_LOC
+	global = TEST_FACTION_LOC
+	global_not = TEST_FACTION_LOC
+}
