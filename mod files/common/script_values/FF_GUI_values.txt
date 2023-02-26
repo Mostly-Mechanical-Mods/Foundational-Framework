@@ -42,9 +42,9 @@ FF_BMU_contender_mil_strength = {
 	if = {
 		limit = {
 			save_temporary_scope_as = s_contender
-			exists = scope:story
+			exists = scope:pressed_claim
 		}
-		scope:story = {
+		scope:pressed_claim = {
 			every_in_list = {
 				variable = BMU_pressed_claim_stakeholders
 				limit = {
@@ -64,8 +64,8 @@ FF_BMU_contender_mil_strength = {
 
 FF_BMU_contender_supporter_count = {
 	if = {
-		limit = { exists = scope:story }
-		scope:story = {
+		limit = { exists = scope:pressed_claim }
+		scope:pressed_claim = {
 			every_in_list = {
 				variable = BMU_pressed_claim_stakeholders
 				limit = {
@@ -99,7 +99,7 @@ FF_BMU_supporter_diff = {
 		}
 	}
 	else = {
-		scope:story.var:claim_target = { subtract = BMU_contender_score }
+		scope:pressed_claim.var:claim_target = { subtract = BMU_contender_score }
 	}
 }
 
@@ -133,7 +133,7 @@ FF_BMU_supporter_diff = {
 FF_BMU_supporter_diff_2 = {
 	if = { limit = { save_temporary_scope_as = PoV }}
 	scope:player_score = { add = BMU_contender_score }
-	scope:story = {
+	scope:pressed_claim = {
 		ordered_in_list = {
 			variable = BMU_pressed_claim_stakeholders
 			limit = { NOT = { var:stakeholder = scope:player_score }}
@@ -192,7 +192,7 @@ FF_confidence = {
 	if = { limit = { save_temporary_scope_as = PoV }}
 	add = FF_BMU_contender_mil_strength
 	divide = {
-		scope:story = {
+		scope:pressed_claim = {
 			ordered_in_list = {
 				variable = BMU_pressed_claim_stakeholders
 				limit = {
@@ -212,11 +212,19 @@ FF_confidence = {
 FF_confidence_mod = {
 	add = {
 		value = {
-			if = { limit = { save_temporary_scope_as = supporter_story }}
+			if = {
+				limit = {
+					save_temporary_scope_as = supporter_story
+					trigger_if = {
+						limit = { NOT = { exists = scope:pressed_claim }}
+						var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+					}
+				}
+			}
 			scope:player_contender.var:stakeholder = { add = FF_BMU_contender_mil_strength }
 			var:stakeholder = { add = max_military_strength }
 			divide = {
-				scope:story = {
+				scope:pressed_claim = {
 					ordered_in_list = {
 						variable = BMU_pressed_claim_stakeholders
 						limit = {
@@ -290,7 +298,10 @@ FF_bargain_acceptance = {
 	if = {
 		limit = {
 			scope:contender.var:stakeholder = { save_temporary_scope_as = candidate }
-			scope:contender.var:pressed_claim_story = { save_temporary_scope_as = story }
+			trigger_if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				scope:contender.var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+			}
 		}
 		if = {
 			limit = {
@@ -375,4 +386,81 @@ FF_bargain_acceptance = {
 		desc = "FF_bargain_value"
 		format = "FF_VALUE_FORMAT"
 	}
+}
+
+FF_bargain_for_acceptance = {
+	if = {
+		limit = {
+			NOT = { exists = scope:pressed_claim }
+			scope:contender.var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+		}
+	}
+	add = {
+		value = {
+			scope:contender.var:stakeholder = { add = FF_BMU_contender_mil_strength }
+			add = scope:supporter.var:stakeholder.max_military_strength
+			divide = {
+				scope:bargain.var:stakeholder_story.var:pressed_claim_story = {
+					ordered_in_list = {
+						variable = BMU_pressed_claim_stakeholders
+						limit = {
+							has_variable = status
+							var:status = flag:contender
+							NOT = { var:stakeholder = scope:contender.var:stakeholder }
+						}
+						order_by = {
+							var:stakeholder = { add = FF_BMU_contender_mil_strength }
+							if = {
+								limit = {
+									is_target_in_variable_list = {
+										name = supporters
+										target = scope:bargain.var:stakeholder_story
+									}
+								}
+								scope:bargain.var:stakeholder_story.var:stakeholder = { subtract = max_military_strength }
+							}
+						}
+						position = 0
+						var:stakeholder = { add = FF_BMU_contender_mil_strength }
+						if = {
+							limit = {
+								is_target_in_variable_list = {
+									name = supporters
+									target = scope:bargain.var:stakeholder_story
+								}
+							}
+							scope:bargain.var:stakeholder_story.var:stakeholder = { subtract = max_military_strength }
+						}
+					}
+				}
+				min = 1
+			}
+			max = 1.2
+			scope:contender.var:stakeholder = {
+				subtract = {
+					add = FF_confidence
+					max = 1.2
+					# multiply = 100
+				}
+			}
+			multiply = 100
+			max = 100
+		}
+		desc = "FF_military_leverage"
+		format = "FF_VALUE_FORMAT"
+	}
+	# divide = {
+	# 	value = {
+	# 		add = scope:contender.var:stakeholder.FF_confidence
+	# 		min = 0
+	# 	}
+	# 	desc = "FF_confidence"
+	# 	# format = "FF_VALUE_FORMAT"
+	# }
+	add = FF_ambition_cost
+	# add = {
+	# 	value = scope:contender.var:stakeholder.FF_confidence
+	# 	desc = "FF_confidence"
+	# 	# format = "FF_VALUE_FORMAT"
+	# }
 }

@@ -1798,19 +1798,19 @@ FF_elective_logic = {
 BMU_contender_score = {
 	if = {
 		limit = {
-			exists = scope:story
-			scope:story = { story_type = BMU_pressed_claim_story }
+			exists = scope:pressed_claim
+			scope:pressed_claim = { story_type = BMU_pressed_claim_story }
 		}
 		if = {
 			limit = {
 				NOT = { exists = scope:claim_target }
-				scope:story.story_owner = { save_temporary_scope_as = claim_target }
+				scope:pressed_claim.story_owner = { save_temporary_scope_as = claim_target }
 			}
 		}
 		if = {
 			limit = {
 				NOT = { exists = scope:claimed_title }
-				scope:story.var:claimed_title = { save_temporary_scope_as = claimed_title }
+				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = claimed_title }
 			}
 		}
 		save_temporary_scope_as = candidate
@@ -1864,7 +1864,7 @@ BMU_involvement_score = {
 				add = 100
 				add = ai_honor
 				if = {
-					limit = { scope:candidate = scope:story.var:claim_target }
+					limit = { scope:candidate = scope:pressed_claim.var:claim_target }
 					multiply = 2
 				}
 			}
@@ -1886,67 +1886,98 @@ BMU_involvement_score = {
 		limit = {
 			any_owned_story = {
 				story_type = BMU_stakeholder_story
-				var:pressed_claim_story = scope:story
+				var:pressed_claim_story = scope:pressed_claim
 				has_variable = status
 				trigger_if = {
 					limit = { var:status = flag:supporter }
 					NOT = { var:contender.var:stakeholder = scope:candidate }
 				}
 				save_temporary_scope_as = supporter_contender
-			}
-			ai_greed > 0	
-			if = {
-				limit = {
-					any_owned_story = {
-						story_type = BMU_ambition_story
-						var:stakeholder_story.var:pressed_claim_story = scope:story
-						has_variable = bargained
-					}
+			}	
+		}
+		if = {
+			limit = {
+				any_owned_story = {
+					story_type = BMU_ambition_story
+					var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
+					has_variable = bargained
 				}
-				add = {
-					value = {
-						random_owned_story = {
-							limit = {
-								story_type = BMU_ambition_story
-								var:stakeholder_story.var:pressed_claim_story = scope:story
-								has_variable = bargain
-							}
-							subtract = var:ambition_value
+			}
+			add = {
+				value = {
+					ordered_owned_story = {
+						limit = {
+							story_type = BMU_ambition_story
+							var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
+							has_variable = bargain
 						}
+						position = 0
+						subtract = var:ambition_score
 					}
-					desc = BMU_tooltip_bargain
-					format = "FF_VALUE_FORMAT"
 				}
+				desc = BMU_tooltip_bargain
+				format = "FF_VALUE_FORMAT"
 			}
-			else_if = {
-				limit = { ai_greed > 0 }
-				add = {
-					value = {
-						subtract = ai_greed
-					}
-					desc = BMU_tooltip_unfulfilled_ambitions
-					format = "FF_VALUE_FORMAT"
+		}
+		else_if = {
+			limit = { ai_greed > 0 }
+			add = {
+				value = {
+					subtract = ai_greed
 				}
+				desc = BMU_tooltip_unfulfilled_ambitions
+				format = "FF_VALUE_FORMAT"
 			}
 		}
 	}
+	#In Position of Power
+	if = {
+		limit = {
+			NOT = { scope:candidate = scope:claim_target }
+			is_councillor_of = scope:claim_target
+		}
+		add = {
+			value = {
+				if = {
+					limit = { has_council_position = councillor_chancellor }
+					subtract = FF_ambition_get_council_position_chancellor
+				}
+				else_if = {
+					limit = { has_council_position = councillor_steward }
+					subtract = FF_ambition_get_council_position_steward
+				}
+				else_if = {
+					limit = { has_council_position = councillor_marshal }
+					subtract = FF_ambition_get_council_position_marshal
+				}
+				else_if = {
+					limit = { has_council_position = councillor_spymaster }
+					subtract = FF_ambition_get_council_position_spymaster
+				}
+				max = 0
+			}
+			desc = "BMU_tooltip_is_councillor_of_claim_target"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
 
 gui_BMU_contender_score = {
 	if = {
 		limit = {
-			exists = scope:story
-			scope:story = { story_type = BMU_pressed_claim_story }
+			exists = scope:pressed_claim
+			scope:pressed_claim = { story_type = BMU_pressed_claim_story }
 		}
 		if = {
 			limit = {
 				NOT = { exists = scope:claim_target }
-				scope:story.story_owner = { save_temporary_scope_as = claim_target }
+				scope:pressed_claim.story_owner = { save_temporary_scope_as = claim_target }
 			}
 		}
 		if = {
 			limit = {
 				NOT = { exists = scope:claimed_title }
-				scope:story.var:claimed_title = { save_temporary_scope_as = claimed_title }
+				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = claimed_title }
 			}
 		}
 		if = {

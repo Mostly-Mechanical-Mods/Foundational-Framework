@@ -252,7 +252,7 @@ BMU_prev_support_score_vs_target = {
 		limit = {
 			prev = { save_temporary_scope_as = POV }
 			save_temporary_scope_as = CONTENDER
-			scope:story.story_owner = { save_temporary_scope_as = TARGET }
+			scope:pressed_claim.story_owner = { save_temporary_scope_as = TARGET }
 			prev = {
 				save_temporary_opinion_value_as = {
 					name = CONTENDER_opinion

@@ -235,6 +235,7 @@ FF_loyalty_close_family_members_at_court = {
 						limit = { exists = PREV.primary_heir }
 						NOT = { THIS = PREV.primary_heir }
 					}
+					exists = location
 					location = PREV.liege.capital_province
 				}
 				add = 10
