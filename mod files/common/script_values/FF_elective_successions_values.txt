@@ -1899,7 +1899,7 @@ BMU_involvement_score = {
 				has_variable = status
 				trigger_if = {
 					limit = { var:status = flag:supporter }
-					NOT = { var:contender.var:stakeholder = scope:candidate }
+					NOT = { var:contender.story_owner = scope:candidate }
 				}
 				save_temporary_scope_as = supporter_contender
 			}	

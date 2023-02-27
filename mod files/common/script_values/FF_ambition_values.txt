@@ -331,7 +331,7 @@ FF_ambition_get_council_position_chancellor = {
 			is_adult = yes
 			trigger_if = {
 				limit = { exists = scope:contender }
-				BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.var:stakeholder }
+				BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
@@ -350,7 +350,7 @@ FF_ambition_get_council_position_steward = {
 			is_adult = yes
 			trigger_if = {
 				limit = { exists = scope:contender }
-				BMU_can_be_steward_of = { COURT_OWNER = scope:contender.var:stakeholder }
+				BMU_can_be_steward_of = { COURT_OWNER = scope:contender.story_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
@@ -369,7 +369,7 @@ FF_ambition_get_council_position_marshal = {
 			is_adult = yes
 			trigger_if = {
 				limit = { exists = scope:contender }
-				BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.var:stakeholder }
+				BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.story_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
@@ -386,7 +386,7 @@ FF_ambition_get_council_position_spymaster = {
 		limit = {
 			trigger_if = {
 				limit = { exists = scope:contender }
-				BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.var:stakeholder }
+				BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.story_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
@@ -406,7 +406,7 @@ FF_ambition_cost = {
 				scope:bargain_temp = { save_temporary_scope_as = bargain }
 			}
 			scope:bargain.var:ambition = flag:FF_ambition_get_council_position
-			scope:contender.var:stakeholder = {
+			scope:contender.story_owner = {
 				any_councillor = {
 					trigger_if = {
 						limit = { scope:bargain.var:council_position = flag:chancellor }
@@ -445,7 +445,7 @@ FF_ambition_cost = {
 				add = {
 					value = {
 						add = scope:current_councillor.max_military_strength
-						divide = scope:supporter.var:stakeholder.max_military_strength
+						divide = scope:supporter.story_owner.max_military_strength
 						multiply = 100
 						subtract = 100
 					}
@@ -457,22 +457,22 @@ FF_ambition_cost = {
 				value = {
 					if = {
 						limit = { scope:bargain.var:council_position = flag:chancellor }
-						add = scope:supporter.var:stakeholder.diplomacy
+						add = scope:supporter.story_owner.diplomacy
 						subtract = scope:current_councillor.diplomacy
 					}
 					else_if = {
 						limit = { scope:bargain.var:council_position = flag:steward }
-						add = scope:supporter.var:stakeholder.stewardship
+						add = scope:supporter.story_owner.stewardship
 						subtract = scope:current_councillor.stewardship
 					}
 					else_if = {
 						limit = { scope:bargain.var:council_position = flag:marshal }
-						add = scope:supporter.var:stakeholder.martial
+						add = scope:supporter.story_owner.martial
 						subtract = scope:current_councillor.martial
 					}
 					else_if = {
 						limit = { scope:bargain.var:council_position = flag:spymaster }
-						add = scope:supporter.var:stakeholder.intrigue
+						add = scope:supporter.story_owner.intrigue
 						subtract = scope:current_councillor.intrigue
 					}
 					multiply = 10
@@ -483,9 +483,9 @@ FF_ambition_cost = {
 			if = {
 				limit = {
 					scope:current_councillor = { is_powerful_vassal = yes }
-					scope:contender.var:stakeholder = {
+					scope:contender.story_owner = {
 						any_powerful_vassal = {
-							max_military_strength < scope:supporter.var:stakeholder.max_military_strength
+							max_military_strength < scope:supporter.story_owner.max_military_strength
 							count = 0
 						}
 					}
