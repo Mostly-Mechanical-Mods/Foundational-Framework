@@ -279,6 +279,28 @@ FF_ambition_screw_rival = {
 
 FF_ambition_get_council_position = {
 	if = {
+		limit = { exists = scope:actor exists = scope:recipient }
+		if = {
+			limit = { scope:councillor_chancellor = yes }
+			value = FF_ambition_get_council_position_chancellor
+		}
+		else_if = {
+			limit = { scope:councillor_steward = flag:steward }
+			value = FF_ambition_get_council_position_steward
+		}
+		else_if = {
+			limit = { scope:councillor_marshal = flag:marshal }
+			value = FF_ambition_get_council_position_marshal
+		}
+		else_if = {
+			limit = { scope:councillor_steward = flag:spymaster }
+			value = FF_ambition_get_council_position_steward
+		}
+		else = {
+			value = FF_ambition_get_council_position_base
+		}
+	}
+	else_if = {
 		limit = { exists = scope:council_position }
 		if = {
 			limit = { scope:council_position = flag:chancellor }
@@ -325,22 +347,22 @@ FF_ambition_get_council_position_base = {
 }
 
 FF_ambition_get_council_position_chancellor = {
-	if = {
-		limit = {
-			is_independent_ruler = no
-			is_adult = yes
-			trigger_if = {
-				limit = { exists = scope:contender }
-				BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }
+	value = {
+		if = {
+			limit = {
+				is_independent_ruler = no
+				is_adult = yes
+				trigger_if = {
+					limit = { exists = scope:contender }
+					# BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }
+				}
 			}
-		}
-		value = FF_ambition_get_council_position_base
-		add = {
-			value = ai_sociability
-			desc = "FF_ambition_get_council_position_chancellor"
-			format = "FF_VALUE_FORMAT"
+			value = FF_ambition_get_council_position_base
+			add = ai_sociability
 		}
 	}
+	desc = "FF_ambition_get_council_position_chancellor"
+	format = "FF_VALUE_FORMAT"
 }
 
 FF_ambition_get_council_position_steward = {
@@ -444,10 +466,12 @@ FF_ambition_cost = {
 				}
 				add = {
 					value = {
-						add = scope:current_councillor.max_military_strength
-						divide = scope:supporter.story_owner.max_military_strength
-						multiply = 100
-						subtract = 100
+						add = 100
+						subtract = {
+							add = scope:current_councillor.max_military_strength
+							divide = scope:supporter.story_owner.max_military_strength
+							multiply = 100
+						}
 					}
 					desc = "BMU_bargain_for_council_position_weaker_than_current_councillor_supporter"
 					format = "FF_VALUE_FORMAT"

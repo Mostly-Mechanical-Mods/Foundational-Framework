@@ -272,89 +272,20 @@ FF_confidence_mod = {
 	}
 }
 
-FF_bargain_acceptance = {
-	# if = {
-	# 	limit = {
-	# 		scope:contender.story_owner = { save_temporary_scope_as = candidate }
-	# 		scope:contender.var:pressed_claim_story = { save_temporary_scope_as = story }
-	# 	}
-	# }
-	# add = {
-	# 	value = { scope:contender.story_owner = { add = BMU_contender_score }}
-	# 	desc = "FF_bargain_supports_you"
-	# 	format = "FF_VALUE_FORMAT"
-	# }
-	# if = {
-	# 	limit = {
-	# 		scope:bargain.var:stakeholder_story = { has_variable = contender }
-	# 		scope:bargain.var:stakeholder_story.var:contender.story_owner = { save_temporary_scope_as = candidate }
-	# 	}
-	# 	add = {
-	# 		value = { scope:bargain.var:stakeholder_story.var:contender.story_owner = { subtract = BMU_contender_score }}
-	# 		desc = "FF_bargain_supports_another"
-	# 		format = "FF_VALUE_FORMAT"
-	# 	}
-	# }
-	if = {
-		limit = {
-			scope:contender.story_owner = { save_temporary_scope_as = candidate }
-			trigger_if = {
-				limit = { NOT = { exists = scope:pressed_claim }}
-				scope:contender.var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
-			}
-		}
-		if = {
-			limit = {
-				scope:bargain.var:stakeholder_story = { has_variable = contender }
-				scope:bargain.var:stakeholder_story.var:contender.story_owner = {
-					save_temporary_scope_as = candidate
-					BMU_contender_score > 0
-				}
-			}
-			add = {
-				value = {
-					scope:contender.story_owner = { add = BMU_contender_score }
-					scope:bargain.var:stakeholder_story.var:contender.story_owner = { subtract = BMU_contender_score }
-				}
-				desc = "FF_bargain_supports_another"
-				format = "FF_VALUE_FORMAT"
-			}
-		}
-		else = {
-			add = {
-				value = { scope:contender.story_owner = { add = BMU_contender_score }}
-				desc = "FF_bargain_supports_you"
-				format = "FF_VALUE_FORMAT"
-			}
-		}
-	}
-	
-	add = {
-		value = {
-			scope:contender.story_owner = { add = FF_BMU_contender_mil_strength }
-			add = max_military_strength
-			divide = {
-				scope:bargain.var:stakeholder_story.var:pressed_claim_story = {
-					ordered_in_list = {
-						variable = BMU_pressed_claim_stakeholders
-						limit = {
-							has_variable = status
-							var:status = flag:contender
-							NOT = { story_owner = scope:contender.story_owner }
-						}
-						order_by = {
-							story_owner = { add = FF_BMU_contender_mil_strength }
-							if = {
-								limit = {
-									is_target_in_variable_list = {
-										name = supporters
-										target = scope:bargain.var:stakeholder_story
-									}
-								}
-								scope:bargain.var:stakeholder_story.story_owner = { subtract = max_military_strength }
-							}
-						}
-						position = 0
+FF_bargain_acceptance_military_leverage = {
+	value = {
+		scope:contender.story_owner = { add = FF_BMU_contender_mil_strength }
+		add = max_military_strength
+		divide = {
+			scope:bargain.var:stakeholder_story.var:pressed_claim_story = {
+				ordered_in_list = {
+					variable = BMU_pressed_claim_stakeholders
+					limit = {
+						has_variable = status
+						var:status = flag:contender
+						NOT = { story_owner = scope:contender.story_owner }
+					}
+					order_by = {
 						story_owner = { add = FF_BMU_contender_mil_strength }
 						if = {
 							limit = {
@@ -366,25 +297,133 @@ FF_bargain_acceptance = {
 							scope:bargain.var:stakeholder_story.story_owner = { subtract = max_military_strength }
 						}
 					}
+					position = 0
+					story_owner = { add = FF_BMU_contender_mil_strength }
+					if = {
+						limit = {
+							is_target_in_variable_list = {
+								name = supporters
+								target = scope:bargain.var:stakeholder_story
+							}
+						}
+						scope:bargain.var:stakeholder_story.story_owner = { subtract = max_military_strength }
+					}
 				}
-				min = 1
 			}
-			scope:contender.story_owner = {
-				subtract = {
-					add = FF_confidence
-					# multiply = 100
-				}
-			}
-			multiply = -100
-			min = -100
+			min = 1
 		}
-		desc = "FF_military_leverage"
-		format = "FF_VALUE_FORMAT"
+		scope:contender.story_owner = {
+			subtract = {
+				add = FF_confidence
+				# multiply = 100
+			}
+		}
+		multiply = -100
+		min = -100
 	}
-	add = {
-		value = scope:bargain.var:ambition_score
-		desc = "FF_bargain_value"
-		format = "FF_VALUE_FORMAT"
+	desc = "FF_bargain_acceptance_military_leverage"
+	format = "FF_VALUE_FORMAT"
+}
+
+FF_bargain_acceptance_ambition_score = {
+	value = scope:bargain.var:ambition_score
+	desc = "FF_bargain_acceptance_ambition_score"
+	format = "FF_VALUE_FORMAT"
+}
+
+FF_bargain_acceptance_support_for_bargainer = {
+	value = {
+		scope:actor = { add = BMU_contender_score }
+		if = {
+			limit = {
+				scope:bargain.var:stakeholder_story = { has_variable = contender }
+			}
+			scope:bargain.var:stakeholder_story.var:contender.story_owner = { subtract = BMU_contender_score }
+		}
+	}
+	desc = "FF_bargain_acceptance_support_for_bargainer"
+	format = "FF_VALUE_FORMAT"
+}
+
+FF_bargain_acceptance = {
+	if = {
+		limit = {
+			NOT = { exists = scope:bargain }
+			AND = {
+				exists = scope:actor
+				exists = scope:recipient
+			}
+		}
+		if = {
+			limit = {
+				NAND = {
+					scope:actor = { has_variable = current_bargain }
+					scope:actor.var:current_bargain.var:stakeholder_story.story_owner = scope:recipient
+				}
+				BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
+				exists = scope:common_pressed_claim
+				scope:stakeholder_1_story = { save_temporary_scope_as = contender }
+				scope:stakeholder_2_story = { save_temporary_scope_as = supporter }
+			}
+			scope:recipient = {
+				ordered_owned_story = {
+					limit = {
+						story_type = BMU_ambition_story
+						var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
+						switch = {
+							trigger = var:ambition
+							flag:FF_ambition_get_council_position = {
+								switch = {
+									trigger = var:council_position
+									flag:chancellor = { scope:councillor_chancellor = yes }
+									flag:steward = { scope:councillor_steward = yes }
+									fallback = { always = no }
+								}
+							}
+						}
+						save_temporary_scope_as = bargain
+					}
+					position = 0
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:actor.var:current_bargain = { save_temporary_scope_as = bargain }
+			}
+		}
+	}
+	if = {
+		limit = { exists = scope:bargain }
+		if = {
+			limit = {
+				scope:contender.story_owner = { save_temporary_scope_as = candidate }
+				trigger_if = {
+					limit = { NOT = { exists = scope:pressed_claim }}
+					scope:contender.var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+				}
+			}
+			add = {
+				value = {
+					scope:contender.story_owner = { add = BMU_contender_score }
+					if = {
+						limit = {
+							scope:bargain.var:stakeholder_story = { has_variable = contender }
+							scope:bargain.var:stakeholder_story.var:contender.story_owner = {
+								save_temporary_scope_as = candidate
+								BMU_contender_score > 0
+							}
+						}
+						scope:bargain.var:stakeholder_story.var:contender.story_owner = { subtract = BMU_contender_score }
+					}
+				}
+				desc = "FF_bargain_support_for_bargainer"
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+		
+		add = FF_bargain_acceptance_military_leverage
+		add = FF_bargain_acceptance_ambition_score
 	}
 }
 
