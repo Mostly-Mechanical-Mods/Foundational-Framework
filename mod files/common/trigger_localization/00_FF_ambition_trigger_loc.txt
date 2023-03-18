@@ -1,0 +1,4 @@
+﻿FF_has_ambition_get_council_position = {
+	FIRST = I_WANT_COUNCIL_POSITION
+	THIRD = THEY_WANT_COUNCIL_POSITION
+}

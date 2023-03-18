@@ -1795,39 +1795,47 @@ FF_elective_logic = {
 
 # references prev
 # needs to be used chained to a scope
-BMU_contender_score = {
+# BMU_contender_score = {
+# 	if = {
+# 		limit = {
+# 			exists = scope:pressed_claim
+# 			scope:pressed_claim = { story_type = BMU_pressed_claim_story }
+# 		}
+# 		if = {
+# 			limit = {
+# 				NOT = { exists = scope:claim_target }
+# 				scope:pressed_claim.story_owner = { save_temporary_scope_as = claim_target }
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				NOT = { exists = scope:claimed_title }
+# 				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = claimed_title }
+# 			}
+# 		}
+# 	}
+# 	if = {
+# 		limit = {
+# 			exists = scope:claim_target
+# 			exists = scope:claimed_title
+# 		}
+# 		save_temporary_scope_as = candidate
+# 		prev = {
+# 			if = { limit = { save_temporary_scope_as = s_contender }}
+# 			add = FF_elective_logic
+# 			if = {
+# 				limit = { exists = scope:pressed_claim }
+# 				add = BMU_involvement_score
+# 			}
+# 		}
+# 	}
+# }
+
+BMU_contender_score_v2 = {
+	add = FF_elective_logic
 	if = {
-		limit = {
-			exists = scope:pressed_claim
-			scope:pressed_claim = { story_type = BMU_pressed_claim_story }
-		}
-		if = {
-			limit = {
-				NOT = { exists = scope:claim_target }
-				scope:pressed_claim.story_owner = { save_temporary_scope_as = claim_target }
-			}
-		}
-		if = {
-			limit = {
-				NOT = { exists = scope:claimed_title }
-				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = claimed_title }
-			}
-		}
-	}
-	if = {
-		limit = {
-			exists = scope:claim_target
-			exists = scope:claimed_title
-		}
-		save_temporary_scope_as = candidate
-		prev = {
-			if = { limit = { save_temporary_scope_as = s_contender }}
-			add = FF_elective_logic
-			if = {
-				limit = { exists = scope:pressed_claim }
-				add = BMU_involvement_score
-			}
-		}
+		limit = { exists = scope:previous_contender }
+		add = BMU_involvement_score
 	}
 }
 

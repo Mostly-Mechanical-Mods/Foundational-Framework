@@ -4,28 +4,7 @@
 }
 
 FF_ambition_get_title = {
-	if = {
-		limit = { save_temporary_scope_as = PoV }
-	}
-	#Wants a title
-	add = {
-		value = ai_greed
-		desc = "FF_ambition_get_title_greed"
-		format = "FF_VALUE_FORMAT"
-	}
-	#Willing to fight for it
-	if = {
-		limit = { FF_ai_greed > 0 }
-		add = {
-			value = {
-				add = ai_boldness
-				subtract = ai_compassion
-				min = 0
-			}
-			desc = "FF_ambition_get_title_willing_to_fight"
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	add = FF_ambition_get_title_base
 	#Specific to scope:coveted_title
 	if = {
 		limit = {
@@ -39,6 +18,7 @@ FF_ambition_get_title = {
 		add = {
 			value = {
 				add = scope:coveted_title.tier
+				multiply = scope:coveted_title.tier
 				multiply = 10
 			}
 			desc = "FF_ambition_get_title_tier"
@@ -148,6 +128,31 @@ FF_ambition_get_title = {
 			}
 		}
 	}
+}
+
+FF_ambition_get_title_base = {
+	if = {
+		limit = { save_temporary_scope_as = PoV }
+	}
+	#Wants a title
+	add = {
+		value = ai_greed
+		desc = "FF_ambition_get_title_greed"
+		format = "FF_VALUE_FORMAT"
+	}
+	#Willing to fight for it
+	if = {
+		limit = { FF_ai_greed > 0 }
+		add = {
+			value = {
+				add = ai_boldness
+				subtract = ai_compassion
+				min = 0
+			}
+			desc = "FF_ambition_get_title_willing_to_fight"
+			format = "FF_VALUE_FORMAT"
+		}
+	}	
 }
 
 FF_ambition_get_child_title = {
@@ -285,43 +290,43 @@ FF_ambition_get_council_position = {
 			value = FF_ambition_get_council_position_chancellor
 		}
 		else_if = {
-			limit = { scope:councillor_steward = flag:steward }
+			limit = { scope:councillor_steward = yes }
 			value = FF_ambition_get_council_position_steward
 		}
 		else_if = {
-			limit = { scope:councillor_marshal = flag:marshal }
+			limit = { scope:councillor_marshal = yes }
 			value = FF_ambition_get_council_position_marshal
 		}
 		else_if = {
-			limit = { scope:councillor_steward = flag:spymaster }
-			value = FF_ambition_get_council_position_steward
+			limit = { scope:councillor_spymaster = yes }
+			value = FF_ambition_get_council_position_spymaster
 		}
 		else = {
 			value = FF_ambition_get_council_position_base
 		}
 	}
-	else_if = {
-		limit = { exists = scope:council_position }
-		if = {
-			limit = { scope:council_position = flag:chancellor }
-			value = FF_ambition_get_council_position_chancellor
-		}
-		else_if = {
-			limit = { scope:council_position = flag:steward }
-			value = FF_ambition_get_council_position_steward
-		}
-		else_if = {
-			limit = { scope:council_position = flag:marshal }
-			value = FF_ambition_get_council_position_marshal
-		}
-		else_if = {
-			limit = { scope:council_position = flag:spymaster }
-			value = FF_ambition_get_council_position_spymaster
-		}
-	}
-	else = {
-		value = FF_ambition_get_council_position_base
-	}
+	# else_if = {
+	# 	limit = { exists = scope:council_position }
+	# 	if = {
+	# 		limit = { scope:council_position = flag:councillor_chancellor }
+	# 		value = FF_ambition_get_council_position_chancellor
+	# 	}
+	# 	else_if = {
+	# 		limit = { scope:council_position = flag:councillor_steward }
+	# 		value = FF_ambition_get_council_position_steward
+	# 	}
+	# 	else_if = {
+	# 		limit = { scope:council_position = flag:councillor_marshal }
+	# 		value = FF_ambition_get_council_position_marshal
+	# 	}
+	# 	else_if = {
+	# 		limit = { scope:council_position = flag:councillor_spymaster }
+	# 		value = FF_ambition_get_council_position_spymaster
+	# 	}
+	# }
+	# else = {
+	# 	value = FF_ambition_get_council_position_base
+	# }
 }
 
 FF_ambition_get_council_position_base = {
@@ -423,11 +428,7 @@ FF_ambition_get_council_position_spymaster = {
 FF_ambition_cost = {
 	if = {
 		limit = {
-			trigger_if = {
-				limit = { exists = scope:bargain_temp }
-				scope:bargain_temp = { save_temporary_scope_as = bargain }
-			}
-			scope:bargain.var:ambition = flag:FF_ambition_get_council_position
+			NOT = { exists = scope:current_councillor }
 			scope:contender.story_owner = {
 				any_councillor = {
 					trigger_if = {
