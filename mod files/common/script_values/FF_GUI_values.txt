@@ -69,12 +69,8 @@ FF_BMU_contender_supporter_count = {
 		}
 		scope:pressed_claim = {
 			every_in_list = {
-				variable = BMU_pressed_claim_stakeholders
-				limit = {
-					var:status = flag:supporter
-					has_variable = contender
-					var:contender.story_owner = scope:temp_contender
-				}
+				variable = supporters
+				limit = { var:contender.story_owner = scope:temp_contender }
 				add = 1
 			}
 		}
