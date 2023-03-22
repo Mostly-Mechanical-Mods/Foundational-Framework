@@ -1952,6 +1952,7 @@ BMU_involvement_score = {
 		limit = {
 			NOT = { scope:candidate = scope:claim_target }
 			is_councillor_of = scope:claim_target
+			scope:claim_target = { save_temporary_scope_as = court_owner }
 		}
 		add = {
 			value = {

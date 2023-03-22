@@ -358,8 +358,8 @@ FF_ambition_get_council_position_chancellor = {
 				is_independent_ruler = no
 				is_adult = yes
 				trigger_if = {
-					limit = { exists = scope:contender }
-					# BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }
+					limit = { exists = scope:court_owner }
+					BMU_can_be_chancellor_of = { COURT_OWNER = scope:court_owner }
 				}
 			}
 			value = FF_ambition_get_council_position_base
@@ -376,8 +376,8 @@ FF_ambition_get_council_position_steward = {
 			is_independent_ruler = no
 			is_adult = yes
 			trigger_if = {
-				limit = { exists = scope:contender }
-				BMU_can_be_steward_of = { COURT_OWNER = scope:contender.story_owner }
+				limit = { exists = scope:court_owner }
+				BMU_can_be_steward_of = { COURT_OWNER = scope:court_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
@@ -395,8 +395,8 @@ FF_ambition_get_council_position_marshal = {
 			is_independent_ruler = no
 			is_adult = yes
 			trigger_if = {
-				limit = { exists = scope:contender }
-				BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.story_owner }
+				limit = { exists = scope:court_owner }
+				BMU_can_be_marshal_of = { COURT_OWNER = scope:court_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
@@ -412,8 +412,8 @@ FF_ambition_get_council_position_spymaster = {
 	if = {
 		limit = {
 			trigger_if = {
-				limit = { exists = scope:contender }
-				BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.story_owner }
+				limit = { exists = scope:court_owner }
+				BMU_can_be_spymaster_of = { COURT_OWNER = scope:court_owner }
 			}
 		}
 		value = FF_ambition_get_council_position_base
