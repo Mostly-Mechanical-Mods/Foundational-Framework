@@ -287,19 +287,19 @@ FF_ambition_get_council_position = {
 		limit = { exists = scope:actor exists = scope:recipient }
 		if = {
 			limit = { scope:councillor_chancellor = yes }
-			value = FF_ambition_get_council_position_chancellor
+			value = BMU_ambition_get_council_position_councillor_chancellor
 		}
 		else_if = {
 			limit = { scope:councillor_steward = yes }
-			value = FF_ambition_get_council_position_steward
+			value = BMU_ambition_get_council_position_councillor_steward
 		}
 		else_if = {
 			limit = { scope:councillor_marshal = yes }
-			value = FF_ambition_get_council_position_marshal
+			value = BMU_ambition_get_council_position_councillor_marshal
 		}
 		else_if = {
 			limit = { scope:councillor_spymaster = yes }
-			value = FF_ambition_get_council_position_spymaster
+			value = BMU_ambition_get_council_position_councillor_spymaster
 		}
 		else = {
 			value = FF_ambition_get_council_position_base
@@ -309,19 +309,19 @@ FF_ambition_get_council_position = {
 	# 	limit = { exists = scope:council_position }
 	# 	if = {
 	# 		limit = { scope:council_position = flag:councillor_chancellor }
-	# 		value = FF_ambition_get_council_position_chancellor
+	# 		value = BMU_ambition_get_council_position_councillor_chancellor
 	# 	}
 	# 	else_if = {
 	# 		limit = { scope:council_position = flag:councillor_steward }
-	# 		value = FF_ambition_get_council_position_steward
+	# 		value = BMU_ambition_get_council_position_councillor_steward
 	# 	}
 	# 	else_if = {
 	# 		limit = { scope:council_position = flag:councillor_marshal }
-	# 		value = FF_ambition_get_council_position_marshal
+	# 		value = BMU_ambition_get_council_position_councillor_marshal
 	# 	}
 	# 	else_if = {
 	# 		limit = { scope:council_position = flag:councillor_spymaster }
-	# 		value = FF_ambition_get_council_position_spymaster
+	# 		value = BMU_ambition_get_council_position_councillor_spymaster
 	# 	}
 	# }
 	# else = {
@@ -347,80 +347,6 @@ FF_ambition_get_council_position_base = {
 				desc = "FF_ambition_get_council_position_powerful_vassal"
 				format = "FF_VALUE_FORMAT"
 			}
-		}
-	}
-}
-
-FF_ambition_get_council_position_chancellor = {
-	value = {
-		if = {
-			limit = {
-				is_independent_ruler = no
-				is_adult = yes
-				trigger_if = {
-					limit = { exists = scope:court_owner }
-					BMU_can_be_chancellor_of = { COURT_OWNER = scope:court_owner }
-				}
-			}
-			value = FF_ambition_get_council_position_base
-			add = ai_sociability
-		}
-	}
-	desc = "FF_ambition_get_council_position_chancellor"
-	format = "FF_VALUE_FORMAT"
-}
-
-FF_ambition_get_council_position_steward = {
-	if = {
-		limit = {
-			is_independent_ruler = no
-			is_adult = yes
-			trigger_if = {
-				limit = { exists = scope:court_owner }
-				BMU_can_be_steward_of = { COURT_OWNER = scope:court_owner }
-			}
-		}
-		value = FF_ambition_get_council_position_base
-		add = {
-			value = ai_greed
-			desc = "FF_ambition_get_council_position_steward"
-			format = "FF_VALUE_FORMAT"
-		}
-	}
-}
-
-FF_ambition_get_council_position_marshal = {
-	if = {
-		limit = {
-			is_independent_ruler = no
-			is_adult = yes
-			trigger_if = {
-				limit = { exists = scope:court_owner }
-				BMU_can_be_marshal_of = { COURT_OWNER = scope:court_owner }
-			}
-		}
-		value = FF_ambition_get_council_position_base
-		add = {
-			value = ai_boldness
-			desc = "FF_ambition_get_council_position_marshal"
-			format = "FF_VALUE_FORMAT"
-		}
-	}
-}
-
-FF_ambition_get_council_position_spymaster = {
-	if = {
-		limit = {
-			trigger_if = {
-				limit = { exists = scope:court_owner }
-				BMU_can_be_spymaster_of = { COURT_OWNER = scope:court_owner }
-			}
-		}
-		value = FF_ambition_get_council_position_base
-		add = {
-			value = ai_vengefulness
-			desc = "FF_ambition_get_council_position_spymaster"
-			format = "FF_VALUE_FORMAT"
 		}
 	}
 }
