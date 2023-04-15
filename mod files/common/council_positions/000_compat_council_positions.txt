@@ -1,0 +1,29 @@
+﻿councillor_personal_steward = {
+	skill = diplomacy
+	
+	name = FF_compat_council_position
+
+	valid_position = {
+		always = no
+	}
+}
+
+councillor_admiral = {
+	skill = diplomacy
+	
+	name = FF_compat_council_position
+
+	valid_position = {
+		always = no
+	}
+}
+
+councillor_castellan = {
+	skill = diplomacy
+	
+	name = FF_compat_council_position
+
+	valid_position = {
+		always = no
+	}
+}
