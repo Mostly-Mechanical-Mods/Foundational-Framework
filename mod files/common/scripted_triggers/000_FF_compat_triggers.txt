@@ -1,0 +1,8 @@
+﻿LTAF_is_loaded = { always = no }
+
+fullscreen_barbershop = { always = no }
+
+
+# AGOT
+
+AGOT_is_loaded = { always = no }

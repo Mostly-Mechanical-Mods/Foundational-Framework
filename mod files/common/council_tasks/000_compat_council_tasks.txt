@@ -18,3 +18,10 @@ task_councillor_castellan = {
 	task_type = task_type_general
 	task_progress = task_progress_infinite
 }
+
+task_councillor_personal_steward = {
+	default_task = yes
+	position = councillor_personal_steward
+	task_type = task_type_general
+	task_progress = task_progress_infinite
+}

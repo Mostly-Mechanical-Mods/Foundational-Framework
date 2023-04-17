@@ -1,0 +1,5 @@
+﻿l_english:
+
+FF_bogus_desc: "#DEBUG Should never show#!"
+trait_nightswatch: "$FF_bogus_desc$"
+trait_nightswatch_desc: "$FF_bogus_desc$"
