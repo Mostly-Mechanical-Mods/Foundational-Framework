@@ -22,7 +22,16 @@ FF_BMU_contender_supporter_count = {
 }
 
 FF_pressed_claim_story_duration = {
+	add = FF_pressed_claim_story_time_passed
+	divide = var:pressed_claim_length
+}
+
+FF_pressed_claim_story_time_passed = {
 	add = current_date
 	subtract = var:start_date
-	divide = 270
+}
+
+FF_pressed_claim_story_time_remaining = {
+	add = var:pressed_claim_length
+	subtract = FF_pressed_claim_story_time_passed
 }
