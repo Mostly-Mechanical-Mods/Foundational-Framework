@@ -1,0 +1,3 @@
+﻿FF_is_loaded = { always = yes }
+
+PoW_travel_plan_on_actions_blocker = { always = no }

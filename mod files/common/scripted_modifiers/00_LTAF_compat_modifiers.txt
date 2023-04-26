@@ -1,2 +1,0 @@
-﻿LTAF_loyalist_faction_modifier = {
-}
