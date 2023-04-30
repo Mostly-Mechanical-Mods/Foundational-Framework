@@ -1,0 +1,3 @@
+﻿PoW_is_loaded = { always = no }
+
+PoW_travel_plan_on_actions_blocker = { always = no }
