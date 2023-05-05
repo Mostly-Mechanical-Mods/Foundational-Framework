@@ -1,0 +1,39 @@
+﻿councillor_personal_steward = {
+	skill = diplomacy
+	
+	name = FF_bogus_desc
+
+	valid_position = {
+		always = no
+	}
+}
+
+councillor_admiral = {
+	skill = diplomacy
+	
+	name = FF_bogus_desc
+
+	valid_position = {
+		always = no
+	}
+}
+
+councillor_castellan = {
+	skill = diplomacy
+	
+	name = FF_bogus_desc
+
+	valid_position = {
+		always = no
+	}
+}
+
+councillor_personal_steward = {
+	skill = diplomacy
+	
+	name = FF_bogus_desc
+
+	valid_position = {
+		always = no
+	}
+}

@@ -1,0 +1,104 @@
+﻿FF_can_be_councillor_chancellor_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+	}
+}
+
+FF_can_be_councillor_steward_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+	}
+}
+
+FF_can_be_councillor_marshal_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+		AND = {
+			has_trait = shieldmaiden
+			$COURT_OWNER$.culture = { has_cultural_parameter = has_access_to_shieldmaidens }
+		}
+	}
+}
+
+FF_can_be_councillor_spymaster_of = {
+	NOT = { has_council_position = councillor_spouse }
+	exists = $COURT_OWNER$ #so we can have the argument but get no errors
+}
+
+FF_can_be_councillor_court_chaplain_of = {
+	save_temporary_scope_as = court_chaplain_check
+	NOT = { has_council_position = councillor_spouse }
+	$COURT_OWNER$.faith = { has_allowed_gender_for_clergy = scope:court_chaplain_check }
+	faith = $COURT_OWNER$.faith
+	trigger_if = {
+		limit = {
+			faith = { has_doctrine = doctrine_theocracy_temporal }
+		}
+		OR = {
+			is_ruler = no
+			has_government = theocracy_government
+		}
+	}
+	trigger_if = {
+		limit = {
+			exists = var:escaped_imprisonment_from
+		}
+		NOT = { var:escaped_imprisonment_from = $COURT_OWNER$ }
+	}
+	trigger_if = { # An excommunicated ruler tolerate excommunicated bishops
+		limit = {
+			$COURT_OWNER$ = { NOT = { has_trait = excommunicated } }
+		}
+		NOT = { has_trait = excommunicated }
+	}
+}
+
+FF_can_be_councillor_castellan_of = { always = no exists = $COURT_OWNER$ }
+FF_can_be_councillor_admiral_of = { always = no exists = $COURT_OWNER$ }
+
+
+FF_council_position_councillor_chancellor_is_valid = { always = yes }
+FF_council_position_councillor_steward_is_valid = { always = yes }
+FF_council_position_councillor_marshal_is_valid = { always = yes }
+FF_council_position_councillor_spymaster_is_valid = { always = yes }
+FF_council_position_councillor_court_chaplain_is_valid = { always = yes }
+FF_council_position_councillor_castellan_is_valid = { AGOT_is_loaded = yes }
+FF_council_position_councillor_admiral_is_valid = {
+	AGOT_is_loaded = yes
+	any_sub_realm_county = {
+		any_county_province = {
+			is_coastal = yes
+		}
+	}
+}
+FF_council_position_councillor_personal_steward_is_valid = {
+	AGOT_is_loaded = yes
+	has_trait = nightswatch
+}

@@ -1,11 +1,14 @@
-﻿FF_is_loaded = { always = yes }
+FF_is_loaded = { always = yes }
 
+# Mostly Mechanical Mods
 PoW_is_loaded = { NOT = { has_game_rule = PoW_is_not_loaded }}
-
 BMU_is_loaded = { NOT = { has_game_rule = BMU_is_not_loaded }}
-
 Inherichance_is_loaded = { NOT = { has_game_rule = Inherichance_is_not_loaded }}
-
 ToT_is_loaded = { NOT = { has_game_rule = ToT_is_not_loaded }}
-
 LTAF_is_loaded = { NOT = { has_game_rule = LTAF_is_not_loaded }}
+
+# FSB
+fullscreen_barbershop = { always = no }
+
+# AGOT
+AGOT_is_loaded = { always = no }

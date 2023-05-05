@@ -1,0 +1,37 @@
+﻿gui_diplomacy = { value = diplomacy }
+gui_martial = { value = martial }
+gui_stewardship = { value = stewardship }
+gui_intrigue = { value = intrigue }
+gui_learning = { value = learning }
+gui_ai_honor = { value = ai_honor }
+
+FF_BMU_contender_supporter_count = {
+	if = {
+		limit = {
+			save_temporary_scope_as = temp_contender
+			exists = scope:pressed_claim
+		}
+		scope:pressed_claim = {
+			every_in_list = {
+				variable = supporters
+				limit = { var:contender.story_owner = scope:temp_contender }
+				add = 1
+			}
+		}
+	}
+}
+
+FF_pressed_claim_story_duration = {
+	add = FF_pressed_claim_story_time_passed
+	divide = var:pressed_claim_length
+}
+
+FF_pressed_claim_story_time_passed = {
+	add = current_date
+	subtract = var:start_date
+}
+
+FF_pressed_claim_story_time_remaining = {
+	add = var:pressed_claim_length
+	subtract = FF_pressed_claim_story_time_passed
+}
