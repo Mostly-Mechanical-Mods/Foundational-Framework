@@ -49,3 +49,16 @@ ToT_loaded = {
 		flag = GG_can_change_rule
 	}
 }
+
+BMU_loaded = {
+	
+	categories = {
+		mod_toggle mostly_mechanical_mods
+	}
+	
+	default = BMU_is_not_loaded
+	
+	BMU_is_not_loaded = {
+		flag = GG_can_change_rule
+	}
+}
