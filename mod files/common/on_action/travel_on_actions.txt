@@ -314,6 +314,12 @@ travel_event_tombola = {
 
 # Arrival in a destination province during travel (a travel plan can have multiple sequential destinations)
 on_travel_plan_arrival = {
+	on_actions = {
+		on_travel_plan_arrival_vanilla
+	}
+}
+
+on_travel_plan_arrival_vanilla = {
 	trigger = {
 		NOR = {
 			AND = {
@@ -324,6 +330,7 @@ on_travel_plan_arrival = {
 			}
 			has_character_flag = in_pilgrimage_event_chain
 		}
+		PoW_travel_plan_on_actions_blocker = no
 	}
 	random_events = {
 		100 = 0

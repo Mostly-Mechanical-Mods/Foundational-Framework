@@ -142,7 +142,7 @@ FF_ambition_get_title_base = {
 	}
 	#Willing to fight for it
 	if = {
-		limit = { FF_ai_greed > 0 }
+		limit = { ai_greed > 0 }
 		add = {
 			value = {
 				add = ai_boldness
@@ -164,7 +164,7 @@ FF_ambition_get_child_title = {
 	}
 	#Willing to fight for it
 	if = {
-		limit = { FF_ai_sociability > 0 }
+		limit = { ai_sociability > 0 }
 		add = {
 			value = {
 				add = ai_boldness
@@ -287,19 +287,19 @@ FF_ambition_get_council_position = {
 		limit = { exists = scope:actor exists = scope:recipient }
 		if = {
 			limit = { scope:councillor_chancellor = yes }
-			value = BMU_ambition_get_council_position_councillor_chancellor
+			value = FF_ambition_get_council_position_councillor_chancellor
 		}
 		else_if = {
 			limit = { scope:councillor_steward = yes }
-			value = BMU_ambition_get_council_position_councillor_steward
+			value = FF_ambition_get_council_position_councillor_steward
 		}
 		else_if = {
 			limit = { scope:councillor_marshal = yes }
-			value = BMU_ambition_get_council_position_councillor_marshal
+			value = FF_ambition_get_council_position_councillor_marshal
 		}
 		else_if = {
 			limit = { scope:councillor_spymaster = yes }
-			value = BMU_ambition_get_council_position_councillor_spymaster
+			value = FF_ambition_get_council_position_councillor_spymaster
 		}
 		else = {
 			value = FF_ambition_get_council_position_base
@@ -309,19 +309,19 @@ FF_ambition_get_council_position = {
 	# 	limit = { exists = scope:council_position }
 	# 	if = {
 	# 		limit = { scope:council_position = flag:councillor_chancellor }
-	# 		value = BMU_ambition_get_council_position_councillor_chancellor
+	# 		value = FF_ambition_get_council_position_councillor_chancellor
 	# 	}
 	# 	else_if = {
 	# 		limit = { scope:council_position = flag:councillor_steward }
-	# 		value = BMU_ambition_get_council_position_councillor_steward
+	# 		value = FF_ambition_get_council_position_councillor_steward
 	# 	}
 	# 	else_if = {
 	# 		limit = { scope:council_position = flag:councillor_marshal }
-	# 		value = BMU_ambition_get_council_position_councillor_marshal
+	# 		value = FF_ambition_get_council_position_councillor_marshal
 	# 	}
 	# 	else_if = {
 	# 		limit = { scope:council_position = flag:councillor_spymaster }
-	# 		value = BMU_ambition_get_council_position_councillor_spymaster
+	# 		value = FF_ambition_get_council_position_councillor_spymaster
 	# 	}
 	# }
 	# else = {
@@ -346,106 +346,6 @@ FF_ambition_get_council_position_base = {
 				value = 50
 				desc = "FF_ambition_get_council_position_powerful_vassal"
 				format = "FF_VALUE_FORMAT"
-			}
-		}
-	}
-}
-
-FF_ambition_cost = {
-	if = {
-		limit = {
-			NOT = { exists = scope:current_councillor }
-			scope:contender.story_owner = {
-				any_councillor = {
-					trigger_if = {
-						limit = { scope:bargain.var:council_position = flag:chancellor }
-						has_council_position = councillor_chancellor
-					}
-					trigger_else_if = {
-						limit = { scope:bargain.var:council_position = flag:steward }
-						has_council_position = councillor_steward
-					}
-					trigger_else_if = {
-						limit = { scope:bargain.var:council_position = flag:marshal }
-						has_council_position = councillor_marshal
-					}
-					trigger_else_if = {
-						limit = { scope:bargain.var:council_position = flag:spymaster }
-						has_council_position = councillor_spymaster
-					}
-					trigger_else = { always = no }
-					save_temporary_scope_as = current_councillor
-				}
-			}
-		}
-		if = {
-			limit = { exists = scope:current_councillor }
-			if = {
-				limit = {
-					scope:current_councillor = {
-						any_owned_story = {
-							story_type = BMU_stakeholder_story
-							var:pressed_claim_story = scope:contender.var:pressed_claim_story
-							var:status = flag:supporter
-							var:contender = scope:contender
-						}
-					}
-				}
-				add = {
-					value = {
-						add = 100
-						subtract = {
-							add = scope:current_councillor.max_military_strength
-							divide = scope:supporter.story_owner.max_military_strength
-							multiply = 100
-						}
-					}
-					desc = "BMU_bargain_for_council_position_weaker_than_current_councillor_supporter"
-					format = "FF_VALUE_FORMAT"
-				}
-			}
-			add = {
-				value = {
-					if = {
-						limit = { scope:bargain.var:council_position = flag:chancellor }
-						add = scope:supporter.story_owner.diplomacy
-						subtract = scope:current_councillor.diplomacy
-					}
-					else_if = {
-						limit = { scope:bargain.var:council_position = flag:steward }
-						add = scope:supporter.story_owner.stewardship
-						subtract = scope:current_councillor.stewardship
-					}
-					else_if = {
-						limit = { scope:bargain.var:council_position = flag:marshal }
-						add = scope:supporter.story_owner.martial
-						subtract = scope:current_councillor.martial
-					}
-					else_if = {
-						limit = { scope:bargain.var:council_position = flag:spymaster }
-						add = scope:supporter.story_owner.intrigue
-						subtract = scope:current_councillor.intrigue
-					}
-					multiply = 10
-				}
-				desc = "BMU_bargain_for_council_position_skill_difference"
-				format = "FF_VALUE_FORMAT"
-			}
-			if = {
-				limit = {
-					scope:current_councillor = { is_powerful_vassal = yes }
-					scope:contender.story_owner = {
-						any_powerful_vassal = {
-							max_military_strength < scope:supporter.story_owner.max_military_strength
-							count = 0
-						}
-					}
-				}
-				add = {
-					value = -50
-					desc = "BMU_bargain_for_council_position_replace_powerful_vassal"
-					format = "FF_VALUE_FORMAT"
-				}
 			}
 		}
 	}

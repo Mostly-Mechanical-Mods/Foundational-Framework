@@ -257,6 +257,9 @@ can_be_warrior_trigger = {
 }
 
 can_be_knight_trigger = {
+#[FF]
+	save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
+#[/FF]
 #[PoW]
 	trigger_if = { limit = { PoW_is_loaded = yes } PoW_can_be_knight_trigger = yes }
 #[/PoW]
@@ -333,6 +336,9 @@ can_be_commander_basic_trigger = {
 }
 
 can_be_commander_now_trigger = {
+#[FF]
+	save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
+#[/FF]
 	can_be_commander_basic_trigger = { ARMY_OWNER = $ARMY_OWNER$ }
 	is_imprisoned = no
 	custom_description = {
@@ -787,6 +793,9 @@ prisoners_of_war_trigger = {
 
 # Used for checking if a captured combatant is worth war-score.
 character_is_potential_important_hostage = {
+	# [PoW]
+	is_imprisoned = yes
+	# [/PoW]
 	OR = {
 		this = scope:primary_siege_attacker
 		this = scope:primary_siege_defender

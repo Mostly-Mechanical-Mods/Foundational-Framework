@@ -1,0 +1,9 @@
+﻿FF_loyalty = {
+	if = {
+		limit = { LTAF_is_loaded = yes }
+		value = LTAF_loyalty
+	}
+	else = {
+		value = ai_honor
+	}
+}s

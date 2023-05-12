@@ -1226,7 +1226,7 @@ ransom_interaction = {
 	
 	is_shown = {
 		scope:secondary_recipient = {
-			#exists = liege
+			exists = liege
 			is_imprisoned_by = scope:actor
 		}
 		NOT = {
@@ -1782,36 +1782,48 @@ pay_ransom_interaction = {
 	notification_text = PAY_RANSOM_PROPOSAL
 	
 	is_shown = {
-		exists = scope:recipient
-		scope:secondary_recipient = {
-			NOT = {
-				this = scope:actor
-			}
-			is_imprisoned_by = scope:recipient
-			OR = {
-				liege ?= scope:actor # You can ransom anyone you have in your court
-				is_close_family_of = scope:actor # And anyone who is your close family
-				dynasty ?= { # And anyone from your Dynasty
-					this ?= scope:actor.dynasty
+# [FF]
+		save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
+		trigger_if = {
+			limit = { scope:FF_debug_compat ?= yes }
+			always = yes
+		}
+		trigger_else = {
+# [/FF]
+			exists = scope:recipient
+			scope:secondary_recipient = {
+				NOT = {
+					this = scope:actor
 				}
-				any_spouse = { # And anyone married to one of your close kin or dynasty members
-					OR = {
-						is_close_family_of = scope:actor
-						dynasty ?= {
-							this ?= scope:actor.dynasty
+				is_imprisoned_by = scope:recipient
+				OR = {
+					liege ?= scope:actor # You can ransom anyone you have in your court
+					is_close_family_of = scope:actor # And anyone who is your close family
+					dynasty ?= { # And anyone from your Dynasty
+						this ?= scope:actor.dynasty
+					}
+					any_spouse = { # And anyone married to one of your close kin or dynasty members
+						OR = {
+							is_close_family_of = scope:actor
+							dynasty ?= {
+								this ?= scope:actor.dynasty
+							}
 						}
 					}
+					has_relation_lover = scope:actor # And Lovers
+					has_relation_friend = scope:actor # And Friends
 				}
-				has_relation_lover = scope:actor # And Lovers
-				has_relation_friend = scope:actor # And Friends
 			}
-		}
-		NOT = {
-			scope:actor = scope:recipient
+			NOT = {
+				scope:actor = scope:recipient
+			}
 		}
 	}
 
 	is_valid_showing_failures_only = {
+# [FF]
+		NOT = { scope:actor = scope:recipient }
+# [/FF]
 # [PoW]
 		trigger_if = { limit = { PoW_is_loaded = yes } PoW_pay_ransom_interaction_is_valid_showing_failures_only = yes }
 # [/PoW]
@@ -2760,6 +2772,9 @@ ransom_me_interaction = {
 	redirect = { # So that users can ransom themselves by clicking on their portrait
 		if = {
 			limit = {
+# [FF]
+				NOT = { scope:FF_debug_compat ?= yes }
+# [/FF]
 				scope:actor = scope:recipient
 				exists = scope:actor.imprisoner
 			}
@@ -2768,10 +2783,21 @@ ransom_me_interaction = {
 	}
 	
 	is_shown = {
-		scope:actor = {
-			is_imprisoned_by = scope:recipient
+# [FF]
+		save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
+		trigger_if = {
+			limit = { scope:FF_debug_compat ?= yes }
+			always = yes
 		}
+		trigger_else = {
+# [/FF]
+			scope:actor = {
+				is_imprisoned_by = scope:recipient
+			}
+		}
+# [FF]
 	}
+# [/FF]
 
 	is_valid_showing_failures_only = {
 # [PoW]
@@ -3318,10 +3344,21 @@ release_from_prison_interaction = {
 	}
 	
 	is_shown = {
-		scope:recipient = {
-			is_imprisoned_by = scope:actor
+# [FF]
+		save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
+		trigger_if = {
+			limit = { scope:FF_debug_compat ?= yes }
+			always = yes
 		}
+		trigger_else = {
+# [/FF]
+			scope:recipient = {
+				is_imprisoned_by = scope:actor
+			}
+		}
+# [FF]
 	}
+# [/FF]
 
 	is_valid_showing_failures_only = {
 		scope:recipient = { is_busy_in_events_localised = yes } #Prisoner
@@ -3747,9 +3784,9 @@ release_from_prison_interaction = {
 		localization = "RELEASE_DEMAND_CONVERSION"
 		is_shown = {
 			NOT = { scope:recipient.faith = scope:actor.faith }
-			# [PoW]
-			scope:recipient = { NOT = { is_in_prison_type = prisoner_of_war }}
-			# [/PoW]
+# [PoW]
+			PoW_release_from_prison_interaction_send_option_is_shown = yes
+# [/PoW]
 		}
 		is_valid = {
 			trigger_if = {
@@ -3804,9 +3841,9 @@ release_from_prison_interaction = {
 		flag = renounce_claims
 		localization = RELEASE_RENOUNCE_CLAIMS
 		is_shown = {
-			# [PoW]
-			scope:recipient = { NOT = { is_in_prison_type = prisoner_of_war }}
-			# [/PoW]
+# [PoW]
+			PoW_release_from_prison_interaction_send_option_is_shown = yes
+# [/PoW]
 			custom_description = {
 				text = "release_renounce_claims"
 				subject = scope:recipient
@@ -3844,9 +3881,9 @@ release_from_prison_interaction = {
 		flag = banish
 		localization = "RELEASE_BANISH"
 		is_shown = {
-			# [PoW]
-			scope:recipient = { NOT = { is_in_prison_type = prisoner_of_war }}
-			# [/PoW]
+# [PoW]
+			PoW_release_from_prison_interaction_send_option_is_shown = yes
+# [/PoW]
 			trigger_if = {
 				limit = {
 					scope:actor = { is_ai = yes }
@@ -3927,11 +3964,11 @@ release_from_prison_interaction = {
 	send_option = {
 		flag = gain_hook
 		localization = "RELEASE_GAIN_HOOK"
-		# [PoW]
+# [PoW]
 		is_shown = {	
-			scope:recipient = { NOT = { is_in_prison_type = prisoner_of_war }}
+			PoW_release_from_prison_interaction_send_option_is_shown = yes
 		}
-		# [/PoW]
+# [/PoW]
 		is_valid = {
 			trigger_if = {
 				limit = {
@@ -3961,9 +3998,9 @@ release_from_prison_interaction = {
 		flag = take_vows
 		localization = "RELEASE_TAKE_VOWS"
 		is_shown = {
-			# [PoW]
-			scope:recipient = { NOT = { is_in_prison_type = prisoner_of_war }}
-			# [/PoW]
+# [PoW]
+			PoW_release_from_prison_interaction_send_option_is_shown = yes
+# [/PoW]
 			scope:actor.faith = {
 				has_doctrine_parameter = take_vows_active
 			}
@@ -4106,9 +4143,9 @@ release_from_prison_interaction = {
 		flag = recruit
 		localization = "RELEASE_RECRUIT"
 		is_shown = {
-			# [PoW]
-			scope:recipient = { NOT = { is_in_prison_type = prisoner_of_war }}
-			# [/PoW]
+# [PoW]
+			PoW_release_from_prison_interaction_send_option_is_shown = yes
+# [/PoW]
 			trigger_if = {
 				limit = {
 					scope:actor = { is_ai = yes }

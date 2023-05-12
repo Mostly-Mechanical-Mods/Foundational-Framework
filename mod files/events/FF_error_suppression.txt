@@ -1,0 +1,48 @@
+﻿namespace = FF_error_suppression
+
+FF_error_suppression.0001 = {
+	hidden = yes
+	orphan = yes
+
+	trigger = {
+		
+	}
+
+	immediate = {	
+		fix_variable_error = { X = debug }
+		fix_variable_error = { X = story_army }
+		fix_variable_error = { X = distinguished_PoW }
+		fix_variable_error = { X = story_PoW_list }
+		fix_variable_error = { X = story_PoW }
+		fix_variable_error = { X = PoW_army_window }
+		fix_variable_error = { X = block_home }
+		fix_variable_error = { X = commander_gather_eta }
+		fix_variable_error = { X = commander }
+		fix_variable_error = { X = block_vanilla_on_actions }
+		fix_variable_error = { X = block_customize }
+
+		fix_variable_error = { X = contender }
+		fix_variable_error = { X = pressed_claim_length }
+		fix_variable_error = { X = supporters }
+		fix_variable_error = { X = GG_achievements }
+		fix_variable_error = { X = councillor_chancellor }
+		fix_variable_error = { X = pressed_claim }
+		fix_variable_error = { X = councillor_castellan }
+		fix_variable_error = { X = councillor_court_chaplain }
+		fix_variable_error = { X = coveted_title }
+		fix_variable_error = { X = councillor_marshal }
+		fix_variable_error = { X = councillor_steward }
+		fix_variable_error = { X = score_contender }
+		fix_variable_error = { X = councillor_spymaster }
+		fix_variable_error = { X = councillor_admiral }
+		fix_variable_error = { X = FF_ambition_get_council_position }
+		fix_variable_error = { X = zealot }
+		fix_variable_error = { X = parochial }
+		fix_variable_error = { X = glory_hound }
+		fix_variable_error = { X = minority }
+		fix_variable_error = { X = PoW_achievement }
+		fix_variable_error = { X = barons_and_minor_landholders }
+		fix_variable_error = { X = mod_unknown }
+		
+	}
+}

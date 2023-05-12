@@ -1,0 +1,349 @@
+﻿FF_ambition_get_council_position = {
+	if = {
+		limit = { exists = scope:FF_ambition_get_council_position }
+		if = {
+			limit = { scope:councillor_chancellor = yes }
+			add = FF_ambition_get_council_position_councillor_chancellor
+		}
+		else_if = {
+			limit = { scope:councillor_steward = yes }
+			add = FF_ambition_get_council_position_councillor_steward
+		}
+		else_if = {
+			limit = { scope:councillor_marshal = yes }
+			add = FF_ambition_get_council_position_councillor_marshal
+		}
+		else_if = {
+			limit = { scope:councillor_spymaster = yes }
+			add = FF_ambition_get_council_position_councillor_spymaster
+		}
+		else_if = {
+			limit = { scope:councillor_court_chaplain = yes }
+			add = FF_ambition_get_council_position_councillor_court_chaplain
+		}
+		else_if = {
+			limit = { scope:councillor_castellan = yes }
+			add = FF_ambition_get_council_position_councillor_castellan
+		}
+		else_if = {
+			limit = { scope:councillor_admiral = yes }
+			add = FF_ambition_get_council_position_councillor_admiral
+		}
+		else = {
+			add = FF_ambition_get_council_position_base
+		}
+	}
+}
+
+FF_ambition_has_council_position = {
+	if = {
+		limit = { is_councillor_of = scope:score_contender }
+		add = {
+			value = {
+				if = {
+					limit = { has_council_position = councillor_chancellor }
+					subtract = FF_ambition_get_council_position_councillor_chancellor
+				}
+				else_if = {
+					limit = { has_council_position = councillor_steward }
+					subtract = FF_ambition_get_council_position_councillor_steward
+				}
+				else_if = {
+					limit = { has_council_position = councillor_marshal }
+					subtract = FF_ambition_get_council_position_councillor_marshal
+				}
+				else_if = {
+					limit = { has_council_position = councillor_spymaster }
+					subtract = FF_ambition_get_council_position_councillor_spymaster
+				}
+				else = {
+					subtract = FF_ambition_get_council_position_base
+				}
+			}
+			desc = FF_ambition_has_council_position
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
+
+FF_ambition_get_council_position_base = {
+	add = {
+		value = ai_energy
+		desc = FF_ambition_get_council_position_energy
+		format = "FF_VALUE_FORMAT"
+	}
+	if = {
+		limit = { is_powerful_vassal = yes }
+		add = {
+			value = 50
+			desc = FF_ambition_get_council_position_powerful_vassal
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
+
+FF_ambition_get_council_position_councillor_chancellor = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_sociability
+		}
+		desc = FF_ambition_get_council_position_councillor_chancellor
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_council_position_councillor_steward = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_greed
+		}
+		desc = FF_ambition_get_council_position_councillor_steward
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_council_position_councillor_marshal = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_boldness
+		}
+		desc = FF_ambition_get_council_position_councillor_marshal
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_council_position_councillor_spymaster = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_vengefulness
+		}
+		desc = FF_ambition_get_council_position_councillor_spymaster
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_council_position_councillor_court_chaplain = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_zeal
+		}
+		desc = FF_ambition_get_council_position_councillor_court_chaplain
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_council_position_councillor_castellan = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_greed
+		}
+		desc = FF_ambition_get_council_position_councillor_castellan
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_council_position_councillor_admiral = {
+	add = {
+		value = {
+			add = FF_ambition_get_council_position_base
+			add = ai_boldness
+		}
+		desc = FF_ambition_get_council_position_councillor_admiral
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+FF_ambition_get_title = {
+	if = {
+		limit = { save_temporary_scope_as = PoV }
+	}
+	#Wants a title
+	add = {
+		value = {
+			add = ai_greed
+			min = 0
+		}
+		desc = "FF_ambition_get_title_greed"
+		format = "FF_VALUE_FORMAT"
+	}
+	#Willing to fight for it
+	if = {
+		limit = { ai_greed > 0 }
+		add = {
+			value = {
+				add = ai_boldness
+				subtract = ai_compassion
+				min = 0
+			}
+			desc = "FF_ambition_get_title_willing_to_fight"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:target
+			OR = {
+				domain_limit_available > 0
+				scope:target.tier >= tier_duchy
+			}
+		}
+		# Title Tier
+		add = {
+			value = {
+				add = scope:target.tier
+				multiply = scope:target.tier
+				multiply = 10
+			}
+			desc = "FF_ambition_get_title_tier"
+			format = "FF_VALUE_FORMAT"
+		}
+		# Title Claimant
+		if = {
+			limit = { has_strong_claim_on = scope:target }
+			add = {
+				value = 25
+				desc = "FF_ambition_get_title_strong_claim"
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+		else_if = {
+			limit = { has_weak_claim_on = scope:target }
+			add = {
+				value = 15
+				desc = "FF_ambition_get_title_weak_claim"
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+		if = {
+			limit = {
+				is_lowborn = no
+				exists = scope:target.holder
+				NOT = { this = scope:target.holder }
+			}
+			if = {
+				limit = { NOT = { any_ancestor = { this = scope:target.holder }}}
+				add = {
+					value = {
+						every_ancestor = {
+							even_if_dead = yes
+							limit = {
+								save_temporary_scope_as = ancestor
+								scope:target = {
+									any_past_holder_reversed = {
+										this = scope:ancestor
+									}
+								}
+							}
+							add = 15
+						}
+					}
+					desc = "FF_ambition_get_title_ancestors"
+					format = "FF_VALUE_FORMAT"
+				}
+			}
+			# else_if = {
+			# 	limit = { NOT = { house = this.scope:target.holder.house }}
+			# 	add = {
+			# 		value = {
+			# 			scope:target = {
+			# 				ordered_past_holder_reversed = {
+			# 					max = 5
+			# 					check_range_bounds = no
+			# 					limit = { house = scope:PoV.house }
+			# 					add = 10
+			# 				}
+			# 			}
+			# 		}
+			# 		desc = "FF_ambition_get_title_house"
+			# 	}
+			# }
+			# else_if = {
+			# 	limit = { NOT = { dynasty = this.scope:target.holder.dynasty }}
+			# 	add = {
+			# 		value = {
+			# 			scope:target = {
+			# 				ordered_past_holder_reversed = {
+			# 					max = 5
+			# 					check_range_bounds = no
+			# 					limit = { dynasty = scope:PoV.dynasty }
+			# 					add = 5
+			# 				}
+			# 			}
+			# 		}
+			# 		desc = "FF_ambition_get_title_dynasty"
+			# 	}
+			# }
+		}
+		# De Jure right over Title
+		if = {
+			limit = {
+				scope:target = {
+					any_this_title_or_de_jure_above = {
+						NOT = { this = prev }
+						exists = holder
+						holder = scope:PoV
+					}
+				}
+			}
+			add = {
+				value = 25
+				desc = "FF_ambition_get_title_de_jure"
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+		# Specific to Title Holder
+		if = {
+			limit = { exists = scope:target.holder }
+			# Title held by Rival
+			if = {
+				limit = { has_relation_rival = scope:target.holder }
+				add = {
+					value = {
+						add = ai_vengefulness
+						min = 0
+					}
+					desc = "FF_ambition_get_title_rival"
+					format = "FF_VALUE_FORMAT"
+				}
+			}
+			# Title held by Friend
+			else_if = {
+				limit = {
+					OR = {
+						has_relation_friend = scope:target.holder
+						has_relation_lover = scope:target.holder
+					}
+				}
+				add = {
+					value = {
+						subtract = ai_honor
+						max = 0
+					}
+					desc = "FF_ambition_get_title_friend"
+					format = "FF_VALUE_FORMAT"
+				}
+			}
+			# Title held by Liege
+			if = {
+				limit = {
+					is_independent_ruler = no
+					scope:target.holder = liege
+				}
+				add = {
+					value = {
+						subtract = FF_loyalty
+						max = 0
+					}
+					desc = "FF_ambition_get_title_liege"
+					format = "FF_VALUE_FORMAT"
+				}
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
 ﻿FF_vassal_stance_courtly = {
 	if = {
 		limit = { NOT = { exists = scope:liege }}
-		liege_or_court_owner ?= { save_scope_as = liege }
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
 	}
 	if = {
 		limit = {
@@ -87,7 +87,7 @@
 FF_vassal_stance_glory_hound = {
 	if = {
 		limit = { NOT = { exists = scope:liege }}
-		liege_or_court_owner ?= { save_scope_as = liege }
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
 	}
 	if = {
 		limit = {
@@ -158,7 +158,7 @@ FF_vassal_stance_glory_hound = {
 FF_vassal_stance_parochial = {
 	if = {
 		limit = { NOT = { exists = scope:liege }}
-		liege_or_court_owner ?= { save_scope_as = liege }
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
 	}
 	if = {
 		limit = {
@@ -246,7 +246,7 @@ FF_vassal_stance_parochial = {
 FF_vassal_stance_zealot = {
 	if = {
 		limit = { NOT = { exists = scope:liege }}
-		liege_or_court_owner ?= { save_scope_as = liege }
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
 	}
 	if = {
 		limit = {
@@ -400,7 +400,7 @@ FF_vassal_stance_zealot = {
 FF_vassal_stance_minority = {
 	if = {
 		limit = { NOT = { exists = scope:liege }}
-		liege_or_court_owner ?= { save_scope_as = liege }
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
 	}
 	if = {
 		limit = {
@@ -414,7 +414,7 @@ FF_vassal_stance_minority = {
 FF_vassal_stance_barons_and_minor_landholders = {
 	if = {
 		limit = { NOT = { exists = scope:liege }}
-		liege_or_court_owner ?= { save_scope_as = liege }
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
 	}
 	if = {
 		limit = {
