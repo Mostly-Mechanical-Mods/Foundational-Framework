@@ -1,7 +1,7 @@
 ﻿l_english:
 
 game_concept_mmm: "Mostly Mechanical Mods"
-game_concept_mmm_desc: "Mostly Mechanical Mods is a collection of mods that focus on the mechanical aspect of game design"
+game_concept_mmm_desc: "Mostly Mechanical Mods is a collection of mods that focus on the mechanical aspect of game design that includes:\n@mmm_pow_icon! [mmm_pow|E]\n@mmm_imho_icon! [mmm_imho|E]\n@mmm_inherichance_icon! [mmm_inherichance|E]\n@mmm_tot_icon! [mmm_tot|E]"
 
 game_concept_mmm_inherichance: "Inherichance"
 game_concept_mmm_inherichance_desc: "When you die, which heir you get to play as next is picked at random, to spice things up.\n\nOr you can change a gamerule to always play as the weakest heir, if you're feeling [GetTrait('sadistic').GetName(GetNullCharacter)]."
