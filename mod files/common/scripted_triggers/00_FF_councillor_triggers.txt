@@ -100,5 +100,5 @@ FF_council_position_councillor_admiral_is_valid = {
 }
 FF_council_position_councillor_personal_steward_is_valid = {
 	AGOT_is_loaded = yes
-	has_trait = nightswatch
+	has_trait_with_flag = nightswatch
 }
