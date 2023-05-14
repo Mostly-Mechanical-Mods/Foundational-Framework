@@ -1783,10 +1783,9 @@ pay_ransom_interaction = {
 	
 	is_shown = {
 # [FF]
-		save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
 		trigger_if = {
-			limit = { scope:FF_debug_compat ?= yes }
-			always = yes
+			limit = { scope:actor = scope:recipient }
+			scope:actor = { is_ai = no }
 		}
 		trigger_else = {
 # [/FF]
@@ -2773,7 +2772,7 @@ ransom_me_interaction = {
 		if = {
 			limit = {
 # [FF]
-				NOT = { scope:FF_debug_compat ?= yes }
+				scope:actor = { is_imprisoned = no }
 # [/FF]
 				scope:actor = scope:recipient
 				exists = scope:actor.imprisoner
@@ -2784,10 +2783,9 @@ ransom_me_interaction = {
 	
 	is_shown = {
 # [FF]
-		save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
 		trigger_if = {
-			limit = { scope:FF_debug_compat ?= yes }
-			always = yes
+			limit = { scope:actor = { is_imprisoned = no }}
+			scope:actor = { always = yes }
 		}
 		trigger_else = {
 # [/FF]
@@ -3345,10 +3343,9 @@ release_from_prison_interaction = {
 	
 	is_shown = {
 # [FF]
-		save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
 		trigger_if = {
-			limit = { scope:FF_debug_compat ?= yes }
-			always = yes
+			limit = { scope:actor = scope:recipient }
+			scope:actor = { is_ai = no }
 		}
 		trigger_else = {
 # [/FF]

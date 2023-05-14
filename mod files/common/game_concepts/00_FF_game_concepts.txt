@@ -36,3 +36,8 @@ mmm_imho = {
 	parent = mmm
 	texture = "gfx/mod_icons/mmm_imho_icon.dds"
 }
+
+mmm_gg = {
+	parent = mmm
+	texture = "gfx/mod_icons/mmm_gg_icon.dds"
+}

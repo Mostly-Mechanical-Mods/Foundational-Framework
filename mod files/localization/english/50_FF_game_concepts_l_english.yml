@@ -20,3 +20,6 @@ game_concept_mmm_ff_desc: "Utility mod that supports mod compatibility without r
 
 game_concept_mmm_bmu: "Back Me Up"
 game_concept_mmm_bmu_desc: "#weak Coming Soon#!"
+
+game_concept_mmm_gg: "Gamerule Gadget"
+game_concept_mmm_gg_desc: "Utility mod that enables changing game rules on an existing save"

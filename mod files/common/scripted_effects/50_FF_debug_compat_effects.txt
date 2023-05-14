@@ -13,7 +13,6 @@
 FF_debug_compat_interaction = {
 	if = {
 		limit = {
-			save_temporary_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_unknown }
 			NOT = {
 				is_character_interaction_shown = {
 					interaction = $INTERACTION$
