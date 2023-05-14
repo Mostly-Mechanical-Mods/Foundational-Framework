@@ -21,3 +21,5 @@ FF_debug_compat_interaction_release_from_prison_interaction: "path: common/chara
 FF_debug_compat_trigger_can_be_knight_trigger: "path: common/scripted_triggers/00_war_and_peace_triggers.txt\nobject: can_be_knight_trigger\nmod: [FF_compat_debug_mod.GetFlagName]"
 FF_debug_compat_trigger_can_be_commander_now_trigger: "path: common/scripted_triggers/00_war_and_peace_triggers.txt\nobject: can_be_commander_now_trigger\nmod: [FF_compat_debug_mod.GetFlagName]"
 FF_debug_compat_effect_prisoner_of_war_capture_effect: "path: common/scripted_effects/00_prison_effects.txt\nobject: prisoner_of_war_capture_effect\nmod: [FF_compat_debug_mod.GetFlagName]"
+
+FF_ransom_me_interaction_is_valid_showing_failures_only: "You are not imprisoned"
