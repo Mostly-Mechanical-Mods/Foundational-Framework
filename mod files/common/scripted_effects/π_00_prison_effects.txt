@@ -1,0 +1,47 @@
+﻿# A lite version of imprison_character_effect without opinion penalties or other consequences (as they were captured in war, not at your command)
+prisoner_of_war_capture_effect = {
+	$TARGET$ = { save_temporary_scope_as = new_target }
+	$IMPRISONER$ = { save_temporary_scope_as = imprisoner }
+#[FF]
+	save_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
+	if = { limit = { scope:FF_debug_compat ?= yes }}
+	else = {
+#[/FF]
+#[PoW]
+		if = { limit = { PoW_is_loaded = yes } PoW_prisoner_of_war_capture_effect = yes }
+		else = {
+#[/PoW]
+			#[Vanilla]
+			if = {
+				limit = {
+					scope:new_target = {
+						exists = liege
+						OR = {
+							is_landed = yes
+							is_close_or_extended_family_of = liege
+							is_spouse_of = liege
+						}
+					}
+				}
+				
+				scope:imprisoner = {
+					imprison = {
+						target = scope:new_target
+						type = house_arrest
+					}
+				}
+			}		
+			else = {
+				scope:imprisoner = {
+					imprison = {
+						target = scope:new_target
+						type = dungeon
+					}
+				}
+			}
+			#[/Vanilla]
+		}
+	#[FF]
+	}
+	#[/FF]
+}
