@@ -1,0 +1,28 @@
+﻿FF_is_loaded = { always = yes }
+
+# Mostly Mechanical Mods
+PoW_is_loaded = { always = no }
+BMU_is_loaded = { always = no }
+Inherichance_is_loaded = { always = no }
+ToT_is_loaded = { always = no }
+LTAF_is_loaded = { always = no }
+IMHO_is_loaded = { always = no }
+KM_is_loaded = { always = no }
+
+# FSB
+fullscreen_barbershop = { always = no }
+
+# AGOT
+AGOT_is_loaded = { always = no }
+
+# PoW
+PoW_pay_ransom_interaction_is_valid_showing_failures_only = {}
+PoW_ransom_me_interaction_is_valid_showing_failures_only = {}
+PoW_release_from_prison_interaction_send_option_is_shown = {}
+PoW_can_be_knight_trigger = {}
+PoW_can_be_commander_now_trigger = {}
+PoW_travel_plan_on_actions_blocker = { always = no }
+PoW_is_loaded_prisoner_transit_enabled = { always = no }
+
+# KM
+KM_can_be_knight_trigger = { exists = $ARMY_OWNER$ }

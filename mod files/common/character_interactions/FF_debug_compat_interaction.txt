@@ -1,0 +1,62 @@
+﻿FF_debug_compat_interaction = {
+	interface_priority = 120
+	common_interaction = yes
+	icon = mmm_ff_icon
+
+	category = interaction_debug_main
+
+	desc = FF_debug_compat_interaction_desc
+
+	is_shown = {
+		scope:actor = {
+			has_variable = FF_debug_compat
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		
+	}
+
+	can_send = {
+
+	}
+	
+	is_highlighted = {
+
+	}
+
+	auto_accept = {
+	}
+
+	on_send = {
+		save_scope_value_as = { name = test value = yes }
+	}
+
+	on_auto_accept = {
+		
+	}
+
+	on_accept = {
+		debug_log = "FF_debug_compat start"
+		save_scope_value_as = { name = FF_debug_compat value = yes }
+		scope:actor = { add_to_list = debug }
+		every_in_list = {
+			list = debug
+			custom = FF_debug_compat_interaction_disclaimer
+			FF_debug_all = yes
+		}
+		debug_log = "FF_debug_compat end"
+	}
+		
+	on_decline = {
+		
+	}
+
+	ai_accept = {
+		base = -100
+		modifier = {
+			exists = scope:test
+			factor = 0
+		}
+	}
+}

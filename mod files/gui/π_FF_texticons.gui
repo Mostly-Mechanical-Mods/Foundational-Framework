@@ -1,0 +1,129 @@
+﻿texticon = {
+	icon = mmm_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_inherichance_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_inherichance_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_pow_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_pow_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_ltaf_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_ltaf_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_tot_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_tot_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_imho_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_imho_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_bmu_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_bmu_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mmm_gg_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mmm_gg_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = mod_coop_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/mod_coop_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = vanilla_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/vanilla_icon.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+
+# IMHO
+
+texticon = {
+	icon = imho_pov_opinion_icon
+	iconsize = {
+		texture = "gfx/ff_gfx/mod_icons/IMHO_health_colorized.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = imho_pov_opinion_1
+	iconsize = {
+		texture = "gfx/ff_gfx/screenshots/IMHO_pov_opinion_1.dds"
+		size = { 400 78 }
+		offset = { 0 78 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = imho_pov_opinion_2
+	iconsize = {
+		texture = "gfx/ff_gfx/screenshots/IMHO_pov_opinion_2.dds"
+		size = { 400 112 }
+		offset = { 0 112 }
+		fontsize = 16
+	}
+}
+texticon = {
+	icon = imho_pov_opinion_3
+	iconsize = {
+		texture = "gfx/ff_gfx/screenshots/IMHO_pov_opinion_3.dds"
+		size = { 400 400 }
+		offset = { 0 40 }
+		fontsize = 16
+	}
+}

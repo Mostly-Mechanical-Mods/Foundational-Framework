@@ -1,0 +1,93 @@
+﻿FF_can_have_vassal_stance_courtly = {
+	is_lowborn = no
+}
+
+FF_can_have_vassal_stance_glory_hound = {
+	always = yes
+}
+
+FF_can_have_vassal_stance_parochial = {
+	always = yes
+}
+
+FF_can_have_vassal_stance_zealot = {
+	OR = {
+		faith = scope:liege.faith
+		faith = {
+			faith_hostility_level = {
+				target = scope:liege.faith
+				value = faith_fully_accepted_level
+			}
+		}
+	}
+}
+
+FF_can_have_vassal_stance_minority = {
+	NAND = {
+		is_clergy = yes
+		faith = scope:liege.faith
+	}
+	NOR = {
+		culture = { has_cultural_tradition = tradition_loyal_soldiers }
+		culture = { has_cultural_tradition = tradition_fp2_malleable_subjects }
+	}
+	OR = {
+		AND = {
+			NOT = {
+				faith = scope:liege.faith
+			}
+			NOT = {
+				faith = scope:liege.faith
+			}
+			faith = {
+				faith_hostility_level = {
+					target = scope:liege.faith
+					value > faith_astray_level
+				}
+			}
+			NOR = {
+				AND = {
+					scope:liege.faith.religion = religion:islam_religion
+					faith = {
+						has_doctrine = tenet_islamic_syncretism
+					}
+				}
+				AND = {
+					scope:liege.faith.religion = religion:judaism_religion
+					faith = {
+						has_doctrine = tenet_jewish_syncretism
+					}
+				}
+				AND = {
+					scope:liege.faith.religion = religion:christianity_religion
+					faith = {
+						has_doctrine = tenet_christian_syncretism
+					}
+				}
+				AND = {
+					scope:liege.faith = {
+						has_doctrine_parameter = unreformed
+					}
+					faith = {
+						has_doctrine = tenet_unreformed_syncretism
+					}
+				}
+			}
+		}
+		AND = {
+			scope:liege = {
+				NOT = { has_trait = crusader_king } #First generation of crusader vassals will not prioritize their cultural rights.
+			}
+			NOT = {
+				culture = scope:liege.culture
+			}
+			culture = {
+				cultural_acceptance = { target = scope:liege.culture value < 30 }
+			}
+		}
+	}
+}
+
+FF_can_have_vassal_stance_barons_and_minor_landholders = {
+	highest_held_title_tier = tier_barony
+}

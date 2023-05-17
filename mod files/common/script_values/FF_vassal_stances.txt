@@ -1,0 +1,426 @@
+﻿FF_vassal_stance_courtly = {
+	if = {
+		limit = { NOT = { exists = scope:liege }}
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
+	}
+	if = {
+		limit = {
+			exists = scope:liege
+			FF_can_have_vassal_stance_courtly = yes
+		}
+		value = ai_sociability
+		add = {
+			value = ai_sociability
+			divide = 2
+		}
+		add = {
+			value = ai_greed
+			multiply = -1
+		}
+		add = {
+			value = ai_compassion
+			divide = 2
+		}
+		if = {
+			limit = {
+				has_trait = gregarious
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				has_trait = fickle
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				has_trait = honest
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = ethos_courtly }
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				scope:liege = { has_royal_court = yes has_court_type = court_diplomatic }
+			}
+			add = 30
+		}
+		if = {
+			limit = {
+				scope:liege = { has_royal_court = yes has_court_type = court_intrigue }
+			}
+			add = 15
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_royal_prerogative
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_heraldry
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_court_officials
+				}
+			}
+			multiply = 1.2
+		}
+	}
+}
+
+FF_vassal_stance_glory_hound = {
+	if = {
+		limit = { NOT = { exists = scope:liege }}
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
+	}
+	if = {
+		limit = {
+			exists = scope:liege
+			FF_can_have_vassal_stance_glory_hound = yes
+		}
+		value = ai_boldness
+		add = {
+			value = ai_compassion
+			multiply = -1
+		}
+		add = {
+			value = ai_honor
+			multiply = -1
+			divide = 2
+		}
+		if = {
+			limit = {
+				has_trait = brave
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				has_trait = ambitious
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				scope:liege = { has_royal_court = yes has_court_type = court_warlike }
+			}
+			add = 30
+		}
+		if = {
+			limit = {
+				scope:liege = { has_royal_court = yes has_court_type = court_intrigue }
+			}
+			add = 15
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_baliffs
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_knighthood
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_rightful_ownership
+				}
+			}
+			multiply = 1.2
+		}
+	}
+}
+
+FF_vassal_stance_parochial = {
+	if = {
+		limit = { NOT = { exists = scope:liege }}
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
+	}
+	if = {
+		limit = {
+			exists = scope:liege
+			FF_can_have_vassal_stance_parochial = yes
+		}
+		value = ai_honor
+		add = {
+			value = ai_sociability
+			multiply = -1
+		}
+		add = {
+			value = ai_boldness
+			multiply = -1
+		}
+		add = {
+			value = ai_rationality
+			divide = 2
+		}
+		if = {
+			limit = {
+				has_trait = content
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = ethos_communal }
+			}
+			add = 25
+		}
+		if = {
+			limit = {
+				government_has_flag = government_is_republic
+			}
+			add = 150
+		}
+		if = {
+			limit = {
+				culture = { has_cultural_tradition = tradition_isolationist }
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				scope:liege = { has_royal_court = yes has_court_type = court_administrative }
+			}
+			add = 30
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_manorialism
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_land_grants
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_development_04
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_cultural_parameter = more_parochial_vassals
+				}
+			}
+			multiply = 1.2
+		}
+	}
+}
+
+FF_vassal_stance_zealot = {
+	if = {
+		limit = { NOT = { exists = scope:liege }}
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
+	}
+	if = {
+		limit = {
+			exists = scope:liege
+			FF_can_have_vassal_stance_zealot = yes
+		}
+		value = ai_zeal
+		add = {
+			value = ai_zeal
+			divide = 2
+		}
+		add = {
+			value = ai_vengefulness
+			divide = 2
+		}
+		if = {
+			limit = {
+				has_trait = zealous
+			}
+			add = 100
+		}
+		if = {
+			limit = {
+				has_trait = humble
+			}
+			add = 100
+		}
+		if = {
+			limit = {
+				has_trait = education_learning
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				has_focus = learning_theology_focus
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				has_trait = trusting
+			}
+			add = 25
+		}
+		if = {
+			limit = {
+				has_trait = cynical
+			}
+			add = -50
+		}
+		if = {
+			limit = {
+				is_clergy = yes
+			}
+			add = 150
+		}
+		if = {
+			limit = {
+				num_sinful_traits >= 1
+			}
+			add = {
+				value = -50
+				multiply = num_sinful_traits
+			}
+		}
+		if = {
+			limit = {
+				num_virtuous_traits >= 1
+			}
+			add = {
+				value = 25
+				multiply = num_virtuous_traits
+			}
+		}
+		if = {
+			limit = {
+				culture = { has_cultural_tradition = tradition_zealous_people }
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = ethos_spiritual }
+			}
+			add = 25
+		}
+		if = {
+			limit = {
+				scope:liege = { has_royal_court = yes has_court_type = court_scholarly }
+			}
+			add = 30
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_chronicle_writing
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_reconquista
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_divine_right
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_innovation = innovation_primogeniture
+				}
+			}
+			multiply = 1.2
+		}
+		if = {
+			limit = {
+				ai_zeal >= 0
+				government_has_flag = government_is_theocracy
+			}
+			add = 2000
+		}
+		if = {
+			limit = {
+				NOR = {
+					faith = scope:liege.faith
+					faith = {
+						faith_hostility_level = {
+							target = scope:liege.faith
+							value = faith_fully_accepted_level
+						}
+					}
+				}
+			}
+			multiply = 0
+			add = -5000
+		}
+	}
+}
+
+FF_vassal_stance_minority = {
+	if = {
+		limit = { NOT = { exists = scope:liege }}
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
+	}
+	if = {
+		limit = {
+			exists = scope:liege
+			FF_can_have_vassal_stance_minority = yes
+		}
+		value = 1000
+	}
+}
+
+FF_vassal_stance_barons_and_minor_landholders = {
+	if = {
+		limit = { NOT = { exists = scope:liege }}
+		liege_or_court_owner ?= { save_temporary_scope_as = liege }
+	}
+	if = {
+		limit = {
+			exists = scope:liege
+			FF_can_have_vassal_stance_barons_and_minor_landholders = yes
+		}
+		value = 1000
+	}
+}

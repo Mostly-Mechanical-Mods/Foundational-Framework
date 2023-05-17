@@ -1,0 +1,163 @@
+﻿# Supported Scopes: army
+FF_army_has_enemy_army_in_province = {
+	save_temporary_scope_as = local_army
+	FF_is_at_sea = no
+	location = {
+		any_army_in_location = {
+			army_owner = {
+				is_at_war_with = scope:local_army.army_owner
+			}
+		}
+	}
+}
+
+# Supported Scopes: army
+FF_army_has_hostile_army_in_province = {
+	save_temporary_scope_as = local_army
+	FF_is_at_sea = no
+	location = {
+		any_army_in_location = {
+			army_owner = {
+				is_causing_raid_hostility_towards = scope:local_army.army_owner
+			}
+		}
+	}
+}
+
+FF_army_has_hostile_or_enemy_army_in_province = {
+	save_temporary_scope_as = local_army
+	FF_is_at_sea = no
+	location = {
+		any_army_in_location = {
+			army_owner = {
+				OR = {
+					is_at_war_with = scope:local_army.army_owner
+					is_causing_raid_hostility_towards = scope:local_army.army_owner
+				}
+			}
+		}
+	}
+}
+
+# Supported Scopes: army
+FF_army_has_enemy_army_nearby = {
+	save_temporary_scope_as = local_army
+	FF_is_at_sea = no
+	OR = {
+		FF_army_has_hostile_army_in_province = yes
+		location.county = {
+			any_neighboring_county = {
+				any_county_province = {
+					any_army_in_location = {
+						army_owner = {
+							is_at_war_with = scope:local_army.army_owner
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+# Supported Scopes: army
+FF_army_has_hostile_army_nearby = {
+	save_temporary_scope_as = local_army
+	FF_is_at_sea = no
+	OR = {
+		FF_army_has_hostile_army_in_province = yes
+		location.county = {
+			any_neighboring_county = {
+				any_county_province = {
+					any_army_in_location = {
+						army_owner = {
+							is_causing_raid_hostility_towards = scope:local_army.army_owner
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Supported Scopes: army
+FF_army_has_hostile_or_enemy_army_nearby = {
+	save_temporary_scope_as = local_army
+	FF_is_at_sea = no
+	OR = {
+		FF_army_has_hostile_army_in_province = yes
+		location.county = {
+			any_neighboring_county = {
+				any_county_province = {
+					any_army_in_location = {
+						army_owner = {
+							OR = {
+								is_at_war_with = scope:local_army.army_owner
+								is_causing_raid_hostility_towards = scope:local_army.army_owner
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Supported Scopes: army
+FF_is_at_sea = {
+	exists = location
+	NOT = { exists = location.barony }
+}
+
+
+# Supported Scopes: army
+FF_is_in_own_territory = {
+	exists = location
+	FF_is_at_sea = no
+	location.county_controller.top_liege = army_owner.top_liege
+	location.county.holder.top_liege = army_owner.top_liege
+	location.barony_controller.top_liege = army_owner.top_liege
+}
+
+# Supported Scopes: army
+FF_is_in_friendly_territory = {
+	exists = location
+	FF_is_at_sea = no
+	location.county = { save_temporary_scope_as = army_loc }
+	army_owner = {
+		any_war_ally = {
+			primary_title = {
+				any_in_de_facto_hierarchy = {
+					tier = tier_county
+					this = scope:army_loc
+				}
+			}
+		}
+	}
+}
+
+# Supported Scopes: army
+FF_army_is_in_sub_realm = {
+	save_temporary_scope_as = local_army
+	exists = location
+	FF_is_at_sea = no
+	army_owner = {
+		OR = {
+			this = prev.county.holder
+			is_liege_or_above_of = prev.county.holder
+		}
+	}
+}
+
+# Supported Scopes: army
+FF_army_is_in_realm = {
+	save_temporary_scope_as = local_army
+	exists = location
+	FF_is_at_sea = no
+	army_owner.top_liege = {
+		OR = {
+			this = prev.county.holder
+			is_liege_or_above_of = prev.county.holder
+		}
+	}
+}

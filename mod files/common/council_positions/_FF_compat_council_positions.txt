@@ -1,0 +1,31 @@
+﻿councillor_personal_steward = {
+	skill = diplomacy
+	name = FF_bogus_desc
+	valid_position = { always = no }
+	valid_character = { always = no }
+	auto_fill = yes
+}
+
+councillor_admiral = {
+	skill = diplomacy
+	name = FF_bogus_desc
+	valid_position = { always = no }
+	valid_character = { always = no }
+	auto_fill = yes
+}
+
+councillor_castellan = {
+	skill = diplomacy
+	name = FF_bogus_desc
+	valid_position = { always = no }
+	valid_character = { always = no }
+	auto_fill = yes
+}
+
+councillor_personal_steward = {
+	skill = diplomacy
+	name = FF_bogus_desc
+	valid_position = { always = no }
+	valid_character = { always = no }
+	auto_fill = yes
+}

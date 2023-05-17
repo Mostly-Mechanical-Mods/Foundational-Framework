@@ -1,0 +1,7 @@
+﻿FF_debug_compat_sgui = {
+	scope = character
+	effect = {
+		save_scope_value_as = { name = FF_compat_debug value = yes }
+		FF_debug_all = yes
+	}
+}
