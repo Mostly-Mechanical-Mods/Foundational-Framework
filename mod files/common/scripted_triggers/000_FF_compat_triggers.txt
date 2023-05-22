@@ -1,6 +1,4 @@
-﻿FF_is_loaded = { always = yes }
-
-# Mostly Mechanical Mods
+﻿# Mostly Mechanical Mods
 PoW_is_loaded = { always = no }
 BMU_is_loaded = { always = no }
 Inherichance_is_loaded = { always = no }

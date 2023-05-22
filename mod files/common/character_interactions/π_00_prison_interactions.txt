@@ -102,8 +102,7 @@ pay_ransom_interaction = {
 				save_scope_as = imprisoner
 			}
 			scope:actor = {
-				save_scope_as = payer
-				
+				save_scope_as = payer	
 				# Stress impacts
 				if = {
 					limit = {
@@ -2047,7 +2046,11 @@ release_from_prison_interaction = {
 
 				if = {
 					limit = { is_imprisoned = yes }
+#[PoW]
+					PoW_release_from_prison_interaction_on_accept_setup = yes
+#[/PoW]
 					release_from_prison = yes
+					# PoW_release_from_prison_interaction_on_accept = yes
 				}
 			}
 		}

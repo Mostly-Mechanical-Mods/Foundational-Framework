@@ -13,8 +13,8 @@ setting_PoW_is_not_loaded_desc: "[mmm_pow|E] is not in your playset"
 
 game_rule_category_mmm_ltaf: "@mmm_ltaf_icon! Loyal To A Fault"
 rule_LTAF_loaded: "@mmm_ltaf_icon! Loyal To A Fault"
-setting_LTAF_is_not_loaded: "Off"
-setting_LTAF_is_not_loaded_desc: "Loyal To A Fault is not in your playset"
+setting_LTAF_is_not_loaded: "Pending update"
+setting_LTAF_is_not_loaded_desc: "Loyal To A Fault is not updated for 1.9 yet"
 
 game_rule_category_mmm_inherichance: "@mmm_inherichance_icon! Inherichance"
 rule_Inherichance_loaded: "@mmm_inherichance_icon! [mmm_inherichance|E]"

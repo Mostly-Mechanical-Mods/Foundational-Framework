@@ -1,16 +1,20 @@
 ﻿# Arrival in any province during travel
 on_travel_plan_movement = {
+#[FF]
 	on_actions = {
-		on_travel_plan_movement_adult_ruler
+		vanilla_on_travel_plan_movement
 	}
 }
 
-on_travel_plan_movement_adult_ruler = {
+vanilla_on_travel_plan_movement = {
+#[/FF]
 	# It should be more likely to fire a danger event if it's valid for the given province
 	trigger = {
 		is_landed = yes
 		is_adult = yes
-		PoW_travel_plan_on_actions_blocker = no
+		#[FF]
+		NOT = { current_travel_plan = { has_variable = FF_vanilla_on_travel_plan_movement_blocker }}
+		#[/FF]
 	}
 
 	on_actions = {
@@ -244,6 +248,8 @@ travel_events_on_action = {
 		100 = travel_events.2200 #A local knight wants to fight someone
 		100 = travel_events.3000 #Rumours about grotesque creatures
 		100 = travel_events.3010 #Lost pet
+		200 = travel_events.3030 #Infatuated knight
+		150 = travel_events.3040 #Bishop gets religious doubts
 		100 = travel_events.3150 #Rival in your entourage plots against you
 		100 = travel_events.3060 #Hermit
 		100 = travel_events.3080 #Knight errant
@@ -314,12 +320,14 @@ travel_event_tombola = {
 
 # Arrival in a destination province during travel (a travel plan can have multiple sequential destinations)
 on_travel_plan_arrival = {
+#[FF]
 	on_actions = {
-		on_travel_plan_arrival_vanilla
+		vanilla_on_travel_plan_arrival
 	}
 }
 
-on_travel_plan_arrival_vanilla = {
+vanilla_on_travel_plan_arrival = {
+#[/FF]
 	trigger = {
 		NOR = {
 			AND = {
@@ -330,13 +338,13 @@ on_travel_plan_arrival_vanilla = {
 			}
 			has_character_flag = in_pilgrimage_event_chain
 		}
-		PoW_travel_plan_on_actions_blocker = no
+		#[FF]
+		NOT = { current_travel_plan = { has_variable = FF_vanilla_on_travel_plan_arrival_blocker }}
+		#[/FF]
 	}
 	random_events = {
 		100 = 0
 		100 = travel_events.3020 #A warm welcome
-		150 = travel_events.3030 #Infatuated knight
-		100 = travel_events.3040 #Bishop gets religious doubts
 	}
 	effect = {
 		# Achievements.
@@ -348,18 +356,19 @@ on_travel_plan_arrival_vanilla = {
 }
 
 # Starting a travel plan (starting to travel to the first destination)
-
 on_travel_plan_start = {
+#[FF]
 	on_actions = {
-		on_travel_plan_start_ruler
+		vanilla_on_travel_plan_start
 	}
 }
 
-on_travel_plan_start_ruler = {
+vanilla_on_travel_plan_start = {
 	trigger = {
 		is_ruler = yes
-		PoW_travel_plan_on_actions_blocker = no
+		current_travel_plan ?= { NOT = { has_variable = FF_vanilla_on_travel_plan_start_blocker }}
 	}
+#[/FF]
 	effect = {
 		set_variable = {
 			name = travel_plan_start_date
@@ -444,15 +453,17 @@ on_travel_plan_start_ruler = {
 # Completed a travel plan (arrived at final destination, or completed through script)
 # A travel plan ends either via 'on_travel_plan_complete' or 'on_travel_plan_abort'
 on_travel_plan_complete = {
+#[FF]
 	on_actions = {
-		on_travel_plan_complete_ruler
+		vanilla_on_travel_plan_complete
 	}
 }
-on_travel_plan_complete_ruler = {
+vanilla_on_travel_plan_complete = {
 	trigger = {
 		is_ruler = yes
-		PoW_travel_plan_on_actions_blocker = no
+		NOT = { current_travel_plan = { has_variable = FF_vanilla_on_travel_plan_complete_blocker }}
 	}
+#[/FF]
 	first_valid = {
 		pilgrimage.9010 #Bury the old host after finishing the Pilgrimage
 		pilgrimage.9001 #Nice Spiritual Journey
@@ -508,18 +519,19 @@ on_travel_plan_complete_ruler = {
 # Aborted a travel plan (travel plan was not completed, or aborted through script)
 # A travel plan ends either via 'on_travel_plan_complete' or 'on_travel_plan_abort'
 # This usually means everyone gets teleported to their default location after this.
-
 on_travel_plan_abort = {
+#[FF]
 	on_actions = {
-		on_travel_plan_abort_ruler
+		vanilla_on_travel_plan_abort
 	}
 }
 
-on_travel_plan_abort_ruler = {
+vanilla_on_travel_plan_abort = {
 	trigger = {
 		is_ruler = yes
-		PoW_travel_plan_on_actions_blocker = no
+		NOT = { current_travel_plan = { has_variable = FF_vanilla_on_travel_plan_abort_blocker }}
 	}
+#[/FF]
 	events = {
 		travel_completion_event.1000
 	}
@@ -642,15 +654,17 @@ on_travel_activity_invalidated = {
 # scope:travel_plan - The travel plan
 # scope:old_travel_leader - The now removed leader.
 on_travel_leader_removed = {
+#[FF]
 	on_actions = {
-		on_travel_leader_removed_ruler
+		vanilla_on_travel_leader_removed
 	}
 }
 
-on_travel_leader_removed_ruler = {
+vanilla_on_travel_leader_removed = {
+#[/FF]
 	trigger = {
 		is_landed = yes
-		PoW_travel_plan_on_actions_blocker = no
+		scope:travel_plan ?= { NOT = { has_variable = FF_vanilla_on_travel_leader_removed_blocker }}
 	}
 	events = {
 		travel_events.1020 # Provides the option to employ a new travel leader from your entourage or your current location

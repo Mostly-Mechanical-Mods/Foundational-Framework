@@ -1,1 +1,5 @@
-﻿PoW_prisoner_of_war_capture_effect = {}
+﻿# Prisoners of War
+
+PoW_prisoner_of_war_capture_effect = {}
+PoW_pay_ransom_interaction_on_accept_setup = {}
+PoW_pay_ransom_interaction_on_accept = {}

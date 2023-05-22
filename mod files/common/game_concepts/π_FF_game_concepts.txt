@@ -53,3 +53,20 @@ imho_pov_opinion = {
 	parent = mmm_imho
 	texture = "gfx/ff_gfx/mod_icons/mmm_imho_icon.dds"
 }
+
+# PoW
+
+pow_prisoner_transit = {
+	parent = mmm_pow
+	texture = "gfx/ff_gfx/mod_icons/mmm_pow_icon.dds"
+}
+
+pow_gather_commanders = {
+	parent = mmm_pow
+	texture = "gfx/ff_gfx/mod_icons/mmm_pow_icon.dds"
+}
+
+pow_prisoner_release_travel = {
+	parent = mmm_pow
+	texture = "gfx/ff_gfx/mod_icons/mmm_pow_icon.dds"
+}

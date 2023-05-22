@@ -1,1 +1,1 @@
-﻿gui/50_FF_debug_compat_widgets.gui = FF_debug_compat_widget
+﻿# gui/50_FF_debug_compat_widgets.gui = FF_debug_compat_widget
