@@ -1,1 +1,8 @@
 ﻿LTAF_loyalty = 0
+
+
+FF_ward_limit = {
+	value = wlbol_ward_limit
+}
+
+wlbol_ward_limit = 2

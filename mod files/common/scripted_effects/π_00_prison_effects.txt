@@ -1,219 +1,45 @@
-﻿ransom_interaction_effect = {
-	scope:prisoner = {
-		add_character_flag = { #To make sure you don't get spammed about the release
-			flag = block_for_prison_release_notification
-			days = 1
-		}
-		if = { # no opinion if you ransomed yourself
-			limit = { NOT = { this = scope:payer } }
-			if = { #Only visible if a player is involved
-				limit = {
-					OR = {
-						scope:prisoner = { is_ai = no }
-						scope:payer = { is_ai = no }
-					}
-					NOT = { scope:prisoner = { is_ai = no } }
-				}
-				add_opinion = {
-					modifier = ransomed_from_prison
-					target = scope:payer
-					years = 1
-				}
-				if = {
-					limit = {
-						is_ai = yes
-						ai_honor >= 25
-						ai_greed <= 0
-					}
-					scope:payer = {
-						if = {
-							limit = {
-								can_add_hook = {
-									target = scope:prisoner 
-									type = favor_hook
-								}
-							}
-							add_hook = {
-								target = scope:prisoner 
-								type = indebted_hook
-							}
-						}
-					}
-				}
-				else = {
-					scope:payer = {
-						progress_towards_hook_effect = {
-							CHARACTER = scope:prisoner
-							HOOK_TYPE = indebted_hook
-						}
-					}
-				}
-			}
-			else = {
-				hidden_effect = {
-					if = {
-						limit = {
-							is_ai = yes
-							ai_honor >= 25
-							ai_greed <= 0
-						}
-						scope:payer = {
-							if = {
-								limit = {
-									can_add_hook = {
-										target = scope:prisoner 
-										type = favor_hook
-									}
-								}
-								add_hook = {
-									target = scope:prisoner 
-									type = indebted_hook
-								}
-							}
-						}
-					}
-					else = {
-						scope:payer = {
-							progress_towards_hook_effect = {
-								CHARACTER = scope:prisoner
-								HOOK_TYPE = indebted_hook
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if = {
-		limit = {
-			always = scope:extortionate_gold
-		}
-		scope:payer = {
-			pay_short_term_gold = {
-				gold = scope:prisoner.increased_ransom_cost_value
-				target = scope:imprisoner
-			}
-		}
-		scope:imprisoner = {
-			add_prestige = scope:prisoner.increased_ransom_cost_value
-		}
-	}
-	if = {
-		limit = {
-			always = scope:extortionate_current_gold
-		}
-		scope:payer = {
-			pay_short_term_gold = {
-				gold = scope:ransom_saved_gold_value # Calculated earlier in the ransom interaction.
-				target = scope:imprisoner
-			}
-		}
-		scope:imprisoner = {
-			add_prestige = scope:ransom_saved_gold_value
-		}
-	}
-	if = {
-		limit = {
-			always = scope:gold
-		}
-		scope:payer = {
-			pay_short_term_gold = {
-				gold = scope:prisoner.ransom_cost_value
-				target = scope:imprisoner
-			}
-		}
-	}
-	if = {
-		limit = {
-			always = scope:current_gold
-		}
-		scope:payer = {
-			pay_short_term_gold = {
-				gold = scope:ransom_saved_gold_value # Calculated earlier in the ransom interaction.
-				target = scope:imprisoner
-			}
-		}
-	}
-	if = {
-		limit = {
-			always = scope:favor
-		}
-		if = {
-			limit = {
-				scope:payer = scope:prisoner
-			}
-			scope:payer = {
-				add_opinion = {
-					modifier = demanded_hook
-					target = scope:imprisoner
-				}
-			}
-		}
-		scope:imprisoner = {
-			add_hook = {
-				target = scope:payer
-				type = favor_hook
-			}
-		}
-	}
-	scope:prisoner = {
-	# [PoW]
-		PoW_ransom_interaction_effect_setup = yes
-	# [/PoW]
-		release_from_prison = yes
-	# [PoW]
-		# PoW_ransom_interaction_effect = yes
-	# [/PoW]
-	}
-}
-
-# A lite version of imprison_character_effect without opinion penalties or other consequences (as they were captured in war, not at your command)
+﻿# A lite version of imprison_character_effect without opinion penalties or other consequences (as they were captured in war, not at your command)
 prisoner_of_war_capture_effect = {
 	$TARGET$ = { save_temporary_scope_as = new_target }
 	$IMPRISONER$ = { save_temporary_scope_as = imprisoner }
-	#[FF]
-	save_scope_value_as = { name = FF_debug_compat_mod value = flag:mod_FF }
-	if = { limit = { scope:FF_debug_compat ?= yes }}
-	else = {
-	#[/FF]
 	#[PoW]
-		if = { limit = { PoW_is_loaded_prisoner_transit_enabled = yes } PoW_prisoner_of_war_capture_effect = yes }
-		else = {
+	if = { limit = { PoW_is_loaded_prisoner_transit_enabled = yes } PoW_prisoner_of_war_capture_effect = yes }
+	else = {
 	#[/PoW]
-		#[Vanilla]
-			if = {
-				limit = {
-					scope:new_target = {
-						exists = liege
-						OR = {
-							is_landed = yes
-							is_close_or_extended_family_of = liege
-							is_spouse_of = liege
-						}
-					}
-				}
-				
-				scope:imprisoner = {
-					imprison = {
-						target = scope:new_target
-						type = house_arrest
-					}
-				}
-			}		
-			else = {
-				scope:imprisoner = {
-					imprison = {
-						target = scope:new_target
-						type = dungeon
+	#[Vanilla]
+		if = {
+			limit = {
+				scope:new_target = {
+					exists = liege
+					OR = {
+						is_landed = yes
+						is_close_or_extended_family_of = liege
+						is_spouse_of = liege
 					}
 				}
 			}
-		#[/Vanilla]
+			
+			scope:imprisoner = {
+				imprison = {
+					target = scope:new_target
+					type = house_arrest
+				}
+			}
+		}		
+		else = {
+			scope:imprisoner = {
+				imprison = {
+					target = scope:new_target
+					type = dungeon
+				}
+			}
 		}
+	#[/Vanilla]
 	#[FF]
 	}
 	#[/FF]
 }
+
 
 escape_from_prison_effect = {
 	#[FF] avoids errors when root isn't the prisoner
@@ -241,19 +67,25 @@ escape_from_prison_effect = {
 		if = {
 			limit = {
 				OR = {
+	#[FF]
 					has_revoke_title_reason = scope:prisoner_temp
 					has_banish_reason = scope:prisoner_temp
 					has_execute_reason = scope:prisoner_temp
+	#[/FF]
 				}
 			}
 			add_opinion = {
+	#[FF]
 				target = scope:prisoner_temp
+	#[/FF]
 				modifier = escaped_from_prison_crime
 			}
 		}
 		else = {
 			add_opinion = {
+	#[FF]
 				target = scope:prisoner_temp
+	#[/FF]
 				modifier = escaped_from_prison_opinion
 			}
 		}

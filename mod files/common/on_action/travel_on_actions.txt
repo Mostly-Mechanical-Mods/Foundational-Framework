@@ -23,11 +23,6 @@ vanilla_on_travel_plan_movement = {
 		travel_danger_events_on_action
 	}
 
-	events = {
-		travel_events_cities.1010 
-		travel_events_cities.1020
-	}
-
 	# Increment the count of how many provinces the character has passed through
 	# Used for loc in the travel completion event
 	# Variable cleanup in the completion event (travel_completion_event.1000)
@@ -159,6 +154,7 @@ travel_danger_events_on_action = {
 		100 = travel_danger_events.1008 # Danger! Occupied Territory
 		100 = travel_danger_events.1011 # Danger! Winter - an entourage member suffered a frostbite
 		100 = travel_danger_events.1012 # Danger! An entourage member is trying to eat a poisonous plant
+		100 = travel_danger_events.1013 # Danger! Runaway entourage member
 		100 = travel_danger_events.2000 # Danger! Jungle!
 		100 = travel_danger_events.2001 # Danger! Flood!
 		100 = travel_danger_events.3000 # Danger! Mountain/Desert Mountain - Somebody falls from the trail
@@ -261,7 +257,7 @@ travel_events_on_action = {
 		100 = travel_events.4005 # Encounter a caravan of merchants at sea
 		100 = travel_events.4006 # A local bird lands on your boat and eats some supplies
 		100 = travel_events.4008 # Shipwreck!
-		100 = travel_events.4012 # You are being followed by a feral child
+		15 = travel_events.4012 # You are being followed by a feral child
 		100 = travel_events.4015 # Asking for directions from a diff. language character
 		100 = travel_events.4017 # Swords for hire!
 		100 = travel_events.4018 # A mendicant preacher!
@@ -365,75 +361,149 @@ on_travel_plan_start = {
 
 vanilla_on_travel_plan_start = {
 	trigger = {
-		is_ruler = yes
 		current_travel_plan ?= { NOT = { has_variable = FF_vanilla_on_travel_plan_start_blocker }}
-	}
 #[/FF]
-	effect = {
-		set_variable = {
-			name = travel_plan_start_date
-			value = current_date
+		OR = {
+			is_ruler = yes
+			AND = {
+				is_landed = no
+				involved_activity ?= { has_activity_type = activity_playdate }
+			}
 		}
-		current_travel_plan = {
+	}
+	effect = {
+		if = {
+			limit = { is_ruler = yes }
 			set_variable = {
 				name = travel_plan_start_date
 				value = current_date
 			}
-			set_variable = {
-				name = travel_plan_provinces_traversed
-				value = 1
+			current_travel_plan = {
+				set_variable = {
+					name = travel_plan_start_date
+					value = current_date
+				}
+				set_variable = {
+					name = travel_plan_provinces_traversed
+					value = 1
+				}
 			}
-		}
-		# Add Court Physician and Bodyguard if they aren't already in the entourage
-		if = {
-			limit = {
-				employs_court_position = court_physician_court_position
-				current_travel_plan = {
-					any_entourage_character = {
-						NOT = { has_court_position = court_physician_court_position }
+			# Add Court Physician and Bodyguard if they aren't already in the entourage
+			if = {
+				limit = {
+					employs_court_position = court_physician_court_position
+					current_travel_plan = {
+						any_entourage_character = {
+							NOT = { has_court_position = court_physician_court_position }
+						}
+					}
+					any_court_position_holder = {
+						type = court_physician_court_position
+						is_available = yes
 					}
 				}
-				any_court_position_holder = {
+				random_court_position_holder = {
 					type = court_physician_court_position
-					is_available = yes
+					save_scope_as = court_phys
+				}
+				current_travel_plan = {
+					add_companion = scope:court_phys
 				}
 			}
-			random_court_position_holder = {
-				type = court_physician_court_position
-				save_scope_as = court_phys
-			}
-			current_travel_plan = {
-				add_companion = scope:court_phys
-			}
-		}
-		if = {
-			limit = {
-				employs_court_position = bodyguard_court_position
-				current_travel_plan = {
-					any_entourage_character = {
-						NOT = { has_court_position = bodyguard_court_position }
+			if = {
+				limit = {
+					employs_court_position = bodyguard_court_position
+					current_travel_plan = {
+						any_entourage_character = {
+							NOT = { has_court_position = bodyguard_court_position }
+						}
+					}
+					any_court_position_holder = {
+						type = bodyguard_court_position
+						is_available = yes
 					}
 				}
-				any_court_position_holder = {
+				random_court_position_holder = {
 					type = bodyguard_court_position
-					is_available = yes
+					save_scope_as = bodyguard
+				}
+				current_travel_plan = {
+					add_companion = scope:bodyguard
 				}
 			}
-			random_court_position_holder = {
-				type = bodyguard_court_position
-				save_scope_as = bodyguard
+			# Achievements.
+			## I'm in my Element(s)
+			if = {
+				limit = { is_ai = no }
+				# Reset our prior list.
+				clear_variable_list = ep2_im_in_my_elements_achievement_terrain_list
+				ep2_im_in_my_elements_terrain_grabber_effect = yes
 			}
-			current_travel_plan = {
-				add_companion = scope:bodyguard
+			else = {
+				if = {
+					limit = {
+						any_parent = {
+							is_alive = yes
+							is_ai = no
+							location = root.location
+							NOT = { this = root.involved_activity.activity_host }
+						}
+					}
+					random_parent = {
+						limit = {
+							is_alive = yes
+							is_ai = no
+							location = root.location
+							NOT = { this = root.involved_activity.activity_host }
+						}
+						save_scope_as = carer
+					}
+				}
+				else_if = {
+					limit = {
+						any_relation = {
+							type = guardian
+							is_alive = yes
+							is_ai = no
+							location = root.location
+							NOT = { this = root.involved_activity.activity_host }
+						}
+					}
+					random_relation = {
+						type = guardian
+						limit = {
+							is_alive = yes
+							is_ai = no
+							location = root.location
+							NOT = { this = root.involved_activity.activity_host }
+						}
+						save_scope_as = carer
+					}
+				}
+				else_if = {
+					limit = {
+						liege ?= {
+							is_alive = yes
+							is_ai = no
+							is_close_family_of = root
+							location = root.location
+							NOT = { this = root.involved_activity.activity_host }
+						}
+					}
+					liege = { save_scope_as = carer }
+				}
+				if = {
+					limit = { exists = scope:carer }
+					scope:carer = {
+						add_to_variable_list = {
+							name = playdate_guests
+							target = root
+						}
+						# Fire event after a day, once lists are built
+						trigger_event = { id = travel_start_event.1051 days = 1 }
+					}
+				}
 			}
-		}
-		# Achievements.
-		## I'm in my Element(s)
-		if = {
-			limit = { is_ai = no }
-			# Reset our prior list.
-			clear_variable_list = ep2_im_in_my_elements_achievement_terrain_list
-			ep2_im_in_my_elements_terrain_grabber_effect = yes
 		}
 	}
 	events = {
@@ -644,9 +714,34 @@ on_travel_activity_complete = {
 }
 
 # If the travel is due to an activity and the activity is invalidated (not completed), this will trigger.
-# After this on_action, the travel plan will be rerouted home
+# After this on_action, the travel plan will be rerouted home.
 on_travel_activity_invalidated = {
 
+}
+
+# If the travel is due to an activity and the activity has started while this travel plan is still underway, this
+# will trigger. The travel plan is already routed home at this point.
+# Root - The owner of the travel plan
+# scope:travel_plan - The travel plan
+on_travel_activity_arrival_too_late = {
+	effect = {
+		trigger_event = {
+			id = activity_system.0401
+		}
+	}
+}
+
+# If the travel is due to an activity and we estimate that we will not arrive in time for it, this will trigger.
+# It will only trigger once, until the estimations change to be in time again.
+# Root - The owner of the travel plan
+# scope:travel_plan - The travel plan
+# scope:estimated_arrival_diff_days - difference in days between activity start and estimated arrival (negative is arriving late)
+on_travel_activity_estimated_arrival_too_late = {
+	effect = {
+		trigger_event = {
+			id = activity_system.0400
+		}
+	}
 }
 
 # If the travel leader gets removed (not replaced), this will trigger.
@@ -668,5 +763,13 @@ vanilla_on_travel_leader_removed = {
 	}
 	events = {
 		travel_events.1020 # Provides the option to employ a new travel leader from your entourage or your current location
+	}
+}
+
+#On action triggered from the poi_grand_city point of interest:
+on_visited_grand_city = {
+	events = {
+		travel_events_cities.1010
+		travel_events_cities.1020
 	}
 }

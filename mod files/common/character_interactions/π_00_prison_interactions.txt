@@ -24,56 +24,36 @@ pay_ransom_interaction = {
 	notification_text = PAY_RANSOM_PROPOSAL
 	
 	is_shown = {
-# [FF]
-		trigger_if = {
-			limit = {
-				scope:actor = scope:recipient
-				scope:actor = scope:secondary_recipient
+		exists = scope:recipient
+		scope:secondary_recipient = {
+			NOT = {
+				this = scope:actor
 			}
-			scope:actor = { is_ai = no }
-		}
-		trigger_else = {
-# [/FF]
-			exists = scope:recipient
-			scope:secondary_recipient = {
-				NOT = {
-					this = scope:actor
+			is_imprisoned_by = scope:recipient
+			OR = {
+				liege ?= scope:actor # You can ransom anyone you have in your court
+				is_close_family_of = scope:actor # And anyone who is your close family
+				dynasty ?= { # And anyone from your Dynasty
+					this ?= scope:actor.dynasty
 				}
-				is_imprisoned_by = scope:recipient
-				OR = {
-					liege ?= scope:actor # You can ransom anyone you have in your court
-					is_close_family_of = scope:actor # And anyone who is your close family
-					dynasty ?= { # And anyone from your Dynasty
-						this ?= scope:actor.dynasty
-					}
-					any_spouse = { # And anyone married to one of your close kin or dynasty members
-						OR = {
-							is_close_family_of = scope:actor
-							dynasty ?= {
-								this ?= scope:actor.dynasty
-							}
+				any_spouse = { # And anyone married to one of your close kin or dynasty members
+					OR = {
+						is_close_family_of = scope:actor
+						dynasty ?= {
+							this ?= scope:actor.dynasty
 						}
 					}
-					has_relation_lover = scope:actor # And Lovers
-					has_relation_friend = scope:actor # And Friends
 				}
+				has_relation_lover = scope:actor # And Lovers
+				has_relation_friend = scope:actor # And Friends
 			}
-			NOT = {
-				scope:actor = scope:recipient
-			}
+		}
+		NOT = {
+			scope:actor = scope:recipient
 		}
 	}
 
 	is_valid_showing_failures_only = {
-# [FF]
-		custom_tooltip = {
-			text = FF_ransom_me_interaction_is_valid_showing_failures_only
-			NAND = {
-				scope:actor = scope:recipient
-				scope:actor = scope:secondary_recipient
-			}
-		}
-# [/FF]
 # [PoW]
 		trigger_if = { limit = { PoW_is_loaded = yes } PoW_pay_ransom_interaction_is_valid_showing_failures_only = yes }
 # [/PoW]
@@ -103,6 +83,7 @@ pay_ransom_interaction = {
 			}
 			scope:actor = {
 				save_scope_as = payer	
+
 				# Stress impacts
 				if = {
 					limit = {
@@ -1021,9 +1002,6 @@ ransom_me_interaction = {
 	redirect = { # So that users can ransom themselves by clicking on their portrait
 		if = {
 			limit = {
-# [FF]
-				scope:actor = { is_imprisoned = yes }
-# [/FF]
 				scope:actor = scope:recipient
 				exists = scope:actor.imprisoner
 			}
@@ -1032,57 +1010,28 @@ ransom_me_interaction = {
 	}
 	
 	is_shown = {
-# [FF]
-		trigger_if = {
-			limit = {
-				scope:actor = { is_imprisoned = no }
-				scope:actor = scope:recipient
-			}
-			scope:actor = { always = yes }
+		scope:actor = {
+			is_imprisoned_by = scope:recipient
 		}
-		trigger_else = {
-# [/FF]
-			scope:actor = {
-				is_imprisoned_by = scope:recipient
-			}
-		}
-# [FF]
 	}
-# [/FF]
 
 	is_valid_showing_failures_only = {
-# [FF]
-		trigger_if = {
-			limit = {
-				scope:actor = scope:recipient
-				scope:actor = { is_imprisoned = no }
-			}
-			custom_tooltip = {
-				text = FF_ransom_me_interaction_is_valid_showing_failures_only
-				always = no
-			}
-		}
-		trigger_else = {
-# [/FF]
 # [PoW]
-			trigger_if = { limit = { PoW_is_loaded = yes } PoW_ransom_me_interaction_is_valid_showing_failures_only = yes }
+		trigger_if = { limit = { PoW_is_loaded = yes } PoW_ransom_me_interaction_is_valid_showing_failures_only = yes }
 # [/PoW]
-			scope:recipient = { is_busy_in_events_localised = yes } #Imprisoner
-			scope:actor = { is_busy_in_events_localised = yes } #Prisoner
-			scope:recipient = {
-				custom_description = {
-					text = "currently_being_tortured"
-					NOT = { has_character_flag = is_being_tortured }
-				}
-			}
-			cannot_release_former_regent_whilst_old_regent_holds_power_trigger = {
-				PRISONER = scope:recipient
-				REGENT = scope:recipient.var:imprisoned_by_diarch
+		scope:recipient = { is_busy_in_events_localised = yes } #Imprisoner
+		scope:actor = { is_busy_in_events_localised = yes } #Prisoner
+		scope:recipient = {
+			custom_description = {
+				text = "currently_being_tortured"
+				NOT = { has_character_flag = is_being_tortured }
 			}
 		}
-	# [FF]
+		cannot_release_former_regent_whilst_old_regent_holds_power_trigger = {
+			PRISONER = scope:recipient
+			REGENT = scope:recipient.var:imprisoned_by_diarch
+		}
 	}
-	# [/FF]
 	
 	on_accept = {
 		if = {
@@ -1611,47 +1560,24 @@ release_from_prison_interaction = {
 	}
 	
 	is_shown = {
-# [FF]
-		trigger_if = {
-			limit = { scope:actor = scope:recipient }
-			scope:actor = { is_ai = no }
+		scope:recipient = {
+			is_imprisoned_by = scope:actor
 		}
-		trigger_else = {
-# [/FF]
-			scope:recipient = {
-				is_imprisoned_by = scope:actor
-			}
-		}
-# [FF]
 	}
-# [/FF]
 
 	is_valid_showing_failures_only = {
-# [FF]
-		trigger_if = {
-			limit = { scope:actor = scope:recipient }
-			custom_tooltip = {
-				text = FF_ransom_me_interaction_is_valid_showing_failures_only
-				always = no
+		scope:recipient = { is_busy_in_events_localised = yes } #Prisoner
+		scope:recipient = {
+			custom_description = {
+				text = "currently_being_tortured"
+				NOT = { has_character_flag = is_being_tortured }
 			}
 		}
-		trigger_else = {
-# [/FF]
-			scope:recipient = { is_busy_in_events_localised = yes } #Prisoner
-			scope:recipient = {
-				custom_description = {
-					text = "currently_being_tortured"
-					NOT = { has_character_flag = is_being_tortured }
-				}
-			}
-			cannot_release_former_regent_whilst_old_regent_holds_power_trigger = {
-				PRISONER = scope:recipient
-				REGENT = scope:recipient.var:imprisoned_by_diarch
-			}
+		cannot_release_former_regent_whilst_old_regent_holds_power_trigger = {
+			PRISONER = scope:recipient
+			REGENT = scope:recipient.var:imprisoned_by_diarch
 		}
-	# [FF]
 	}
-	# [/FF]
 	
 	on_accept = {
 		if = {
@@ -2046,11 +1972,7 @@ release_from_prison_interaction = {
 
 				if = {
 					limit = { is_imprisoned = yes }
-#[PoW]
-					PoW_release_from_prison_interaction_on_accept_setup = yes
-#[/PoW]
 					release_from_prison = yes
-					# PoW_release_from_prison_interaction_on_accept = yes
 				}
 			}
 		}

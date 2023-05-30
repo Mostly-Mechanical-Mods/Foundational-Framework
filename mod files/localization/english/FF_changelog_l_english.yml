@@ -1,0 +1,16 @@
+﻿l_english:
+
+FF_changelog_alert: "[mmm_ff|E] update"
+FF_changelog_alert_desc: "[mmm_ff|E] has updated since you started this playthrough"
+FF_changelog_alert_click: "#P #italic Left-click to read Changelog and remove the alert#!#!"
+
+FF_changelog_alert_interaction: "[mmm_ff|E] Changelog"
+FF_changelog_alert_interaction_desc: "Changelog for [mmm_ff|E]"
+FF_changelog_alert_interaction_send: "Apply Patch"
+FF_changelog_alert_introduction: "[mmm_ff|E] has updated since you started this playthrough"
+FF_v1_0_5_changelog: "#bold FF v1.0.5#!"
+FF_v1_0_5_changelog_patch: "No patch is necessary on your current savegame."
+FF_v1_0_5_changelog_1: "Updated for Lance 1.9.1"
+FF_v1_0_5_changelog_2: "FF now supports #bold Knight Manager - Update 1.9 Compatch#!"
+FF_v1_0_5_changelog_3: "FF now supports #bold Ward Limit Based On Learning#!"
+FF_v1_0_5_changelog_4: "Removed conflict detection capabilities. A Foundational Framework Debug Mod will be made to specifically help detect and debug conflict issues, but it needs more time in the oven."

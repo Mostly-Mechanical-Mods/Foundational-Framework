@@ -1,0 +1,16 @@
+﻿on_game_start_after_lobby = {
+	on_actions = {
+		FF_on_game_start
+		# LTAF_on_game_start_claim_setup
+	}
+}
+
+FF_on_game_start = {
+	effect = {
+		set_global_variable = {
+			name = FF_is_loaded
+			value = yes
+		}
+		set_global_variable = FF_v1_0_5
+	}
+}

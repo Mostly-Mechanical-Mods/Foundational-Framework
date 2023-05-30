@@ -44,5 +44,12 @@ FF_error_suppression.0001 = {
 		fix_variable_error = { X = barons_and_minor_landholders }
 		fix_variable_error = { X = mod_unknown }
 		
+		fix_variable_error = { X = FF_vanilla_on_travel_plan_arrival_blocker }
+		fix_variable_error = { X = FF_vanilla_on_travel_plan_start_blocker }
+		fix_variable_error = { X = FF_vanilla_on_travel_plan_movement_blocker }
+		fix_variable_error = { X = FF_vanilla_on_travel_plan_abort_blocker }
+		fix_variable_error = { X = FF_vanilla_on_travel_plan_complete_blocker }
+		fix_variable_error = { X = FF_vanilla_on_travel_leader_removed_blocker }
+		fix_variable_error = { X = FF_is_loaded }
 	}
 }
