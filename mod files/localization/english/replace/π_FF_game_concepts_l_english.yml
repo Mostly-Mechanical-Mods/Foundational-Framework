@@ -24,6 +24,9 @@ game_concept_mmm_bmu_desc: "#weak Coming Soon#!"
 game_concept_mmm_gg: "Gamerule Gadget"
 game_concept_mmm_gg_desc: "Utility mod that enables changing game rules on an existing save"
 
+game_concept_mmm_entitled: "Entitled"
+game_concept_mmm_entitled_desc: "Utility mod that enables creating Custom Titles from the lobby"
+
 # IMHO
 
 game_concept_imho_pov_opinion: "Third-Party Opinion"

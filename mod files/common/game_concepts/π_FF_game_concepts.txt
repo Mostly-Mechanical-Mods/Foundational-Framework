@@ -42,6 +42,11 @@ mmm_gg = {
 	texture = "gfx/ff_gfx/mod_icons/mmm_gg_icon.dds"
 }
 
+mmm_entitled = {
+	parent = mmm
+	texture = "gfx/ff_gfx/mod_icons/mmm_entitled_icon.dds"
+}
+
 # IMHO
 
 imho_player_personality = {

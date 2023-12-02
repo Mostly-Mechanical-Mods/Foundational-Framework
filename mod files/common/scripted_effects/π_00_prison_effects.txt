@@ -7,30 +7,30 @@ prisoner_of_war_capture_effect = {
 	else = {
 	#[/PoW]
 	#[Vanilla]
-		if = {
-			limit = {
-				scope:new_target = {
-					exists = liege
-					OR = {
-						is_landed = yes
-						is_close_or_extended_family_of = liege
-						is_spouse_of = liege
-					}
+	if = {
+		limit = {
+			scope:new_target = {
+				exists = liege
+				OR = {
+					is_landed = yes
+					is_close_or_extended_family_of = liege
+					is_spouse_of = liege
 				}
 			}
-			
-			scope:imprisoner = {
-				imprison = {
-					target = scope:new_target
-					type = house_arrest
-				}
+		}
+		
+		scope:imprisoner = {
+			imprison = {
+				target = scope:new_target
+				type = house_arrest
 			}
-		}		
-		else = {
-			scope:imprisoner = {
-				imprison = {
-					target = scope:new_target
-					type = dungeon
+		}
+	}		
+	else = {
+		scope:imprisoner = {
+			imprison = {
+				target = scope:new_target
+				type = dungeon
 				}
 			}
 		}
@@ -38,6 +38,8 @@ prisoner_of_war_capture_effect = {
 	#[FF]
 	}
 	#[/FF]
+	
+	imprison_hostage_tooltip_effect = { WHO = scope:new_target }
 }
 
 
@@ -89,6 +91,17 @@ escape_from_prison_effect = {
 				modifier = escaped_from_prison_opinion
 			}
 		}
+	}
+	create_character_memory = {
+		type = escaped_from_prison_memory
+		
+		participants = {
+			imprisoner = scope:imprisoner
+		}
+	}
+	add_character_flag = {
+		flag = escaped_from_prison_flag
+		days = 1
 	}
 	add_character_flag = { #To make sure you don't get spammed about the release
 		flag = block_for_prison_release_notification

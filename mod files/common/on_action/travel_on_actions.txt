@@ -129,6 +129,22 @@ vanilla_on_travel_plan_movement = {
 			limit = { is_ai = no }
 			ep2_im_in_my_elements_terrain_grabber_effect = yes
 		}
+		if = {
+			limit = {
+				is_hostage_warden = yes
+				any_warden_hostage = {
+					exists = location
+					exists = home_court.location
+					exists = root.location
+					location = home_court.location
+					location = root.location
+				}
+			}
+			trigger_event = {
+				id = bp2_yearly.6120
+				days = 2
+			}
+		}
 	}
 }
 
@@ -209,6 +225,15 @@ travel_events_on_action = {
 		highest_held_title_tier >= tier_county
 	}
 
+	effect = {
+		# Invalidate travelling hostages
+		hostage_travel_invalidation_effect = yes
+		# Invalidate travelling wards
+		ward_travel_invalidation_effect = yes
+		# Invalidate travelling guardians
+		guardian_travel_invalidation_effect = yes
+	}
+
 	random_events = {
 		chance_of_no_event = {
 			value = 80
@@ -277,6 +302,7 @@ travel_events_on_action = {
 		100 = travel_events.4039 # You enter a ritual hospitality province and are offered a rest
 		100 = travel_events.4040 # You meet a xenophile character who wants to learn about your culture
 		100 = tour_travel.3010 # Local saint shrine
+		100 = travel_events.4050 # hostage/ward/different culture courtier acts as cultural mediator
 		
 		#Cultural Tradition events
 		100 = travel_events.1200 #Friendly People
@@ -302,6 +328,15 @@ travel_events_on_action = {
 
 		#Mystical animal story
 		300 = hunt_mystical_animal.1002
+
+		#FP3 Travelling through foreign faith land:
+		300 = travel_events_fp3.0010 #Dying Embers
+		300 = travel_events_fp3.0030 #A Feast for Falcons
+		200 = fp3_scholarship.1010 # The Last Magi
+		#FP3 Travel Events
+		150 = travel_events_fp3.0020 #Qanat Diving
+		200 = travel_events_fp3.0040 #Mare's Milk
+		150 = travel_events_fp3.0050 #Tomb Raiders
 	}
 }
 
@@ -370,6 +405,7 @@ vanilla_on_travel_plan_start = {
 				involved_activity ?= { has_activity_type = activity_playdate }
 			}
 		}
+		NOT = { has_character_flag = recently_invalidated_hostage }
 	}
 	effect = {
 		if = {
@@ -439,69 +475,69 @@ vanilla_on_travel_plan_start = {
 				clear_variable_list = ep2_im_in_my_elements_achievement_terrain_list
 				ep2_im_in_my_elements_terrain_grabber_effect = yes
 			}
-			else = {
-				if = {
-					limit = {
-						any_parent = {
-							is_alive = yes
-							is_ai = no
-							location = root.location
-							NOT = { this = root.involved_activity.activity_host }
-						}
-					}
-					random_parent = {
-						limit = {
-							is_alive = yes
-							is_ai = no
-							location = root.location
-							NOT = { this = root.involved_activity.activity_host }
-						}
-						save_scope_as = carer
+		}
+		else = {
+			if = {
+				limit = {
+					any_parent = {
+						is_alive = yes
+						is_ai = no
+						location = root.location
+						NOT = { this = root.involved_activity.activity_host }
 					}
 				}
-				else_if = {
+				random_parent = {
 					limit = {
-						any_relation = {
-							type = guardian
-							is_alive = yes
-							is_ai = no
-							location = root.location
-							NOT = { this = root.involved_activity.activity_host }
-						}
+						is_alive = yes
+						is_ai = no
+						location = root.location
+						NOT = { this = root.involved_activity.activity_host }
 					}
-					random_relation = {
+					save_scope_as = carer
+				}
+			}
+			else_if = {
+				limit = {
+					any_relation = {
 						type = guardian
-						limit = {
-							is_alive = yes
-							is_ai = no
-							location = root.location
-							NOT = { this = root.involved_activity.activity_host }
-						}
-						save_scope_as = carer
+						is_alive = yes
+						is_ai = no
+						location = root.location
+						NOT = { this = root.involved_activity.activity_host }
 					}
 				}
-				else_if = {
+				random_relation = {
+					type = guardian
 					limit = {
-						liege ?= {
-							is_alive = yes
-							is_ai = no
-							is_close_family_of = root
-							location = root.location
-							NOT = { this = root.involved_activity.activity_host }
-						}
+						is_alive = yes
+						is_ai = no
+						location = root.location
+						NOT = { this = root.involved_activity.activity_host }
 					}
-					liege = { save_scope_as = carer }
+					save_scope_as = carer
 				}
-				if = {
-					limit = { exists = scope:carer }
-					scope:carer = {
-						add_to_variable_list = {
-							name = playdate_guests
-							target = root
-						}
-						# Fire event after a day, once lists are built
-						trigger_event = { id = travel_start_event.1051 days = 1 }
+			}
+			else_if = {
+				limit = {
+					liege ?= {
+						is_alive = yes
+						is_ai = no
+						is_close_family_of = root
+						location = root.location
+						NOT = { this = root.involved_activity.activity_host }
 					}
+				}
+				liege = { save_scope_as = carer }
+			}
+			if = {
+				limit = { exists = scope:carer }
+				scope:carer = {
+					add_to_variable_list = {
+						name = playdate_guests
+						target = root
+					}
+					# Fire event after a day, once lists are built
+					trigger_event = { id = travel_start_event.1051 days = 1 }
 				}
 			}
 		}
@@ -706,6 +742,23 @@ on_travel_plan_cancel = {
 				remove_variable = pay_homage_gold_value
 			}
 		}
+		#remove variables from Meditate in Seclusion decision, event religious_decision.0201
+		trigger_event = religious_decision.0200
+
+		#remove variables from Rites of Passage: Seclusion decision, event bp2_yearly.7024
+		if = {
+			limit = {
+				OR = {
+					has_variable = cleansing_type
+					has_variable = chosen_rite_memory
+					has_variable_list = possible_rites
+				}
+			}
+			remove_variable = cleansing_type
+			remove_variable = chosen_rite_memory
+			clear_variable_list = possible_rites
+			add_character_flag = unproven_adult_flag #flag to be able to take the decision again
+		}
 	}
 }
 
@@ -756,11 +809,11 @@ on_travel_leader_removed = {
 }
 
 vanilla_on_travel_leader_removed = {
-#[/FF]
 	trigger = {
 		is_landed = yes
 		scope:travel_plan ?= { NOT = { has_variable = FF_vanilla_on_travel_leader_removed_blocker }}
 	}
+#[/FF]
 	events = {
 		travel_events.1020 # Provides the option to employ a new travel leader from your entourage or your current location
 	}

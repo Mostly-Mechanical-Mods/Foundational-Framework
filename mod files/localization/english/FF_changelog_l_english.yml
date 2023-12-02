@@ -14,3 +14,7 @@ FF_v1_0_5_changelog_1: "Updated for Lance 1.9.1"
 FF_v1_0_5_changelog_2: "FF now supports #bold Knight Manager - Update 1.9 Compatch#!"
 FF_v1_0_5_changelog_3: "FF now supports #bold Ward Limit Based On Learning#!"
 FF_v1_0_5_changelog_4: "Removed conflict detection capabilities. A Foundational Framework Debug Mod will be made to specifically help detect and debug conflict issues, but it needs more time in the oven."
+
+FF_v1_0_6_changelog: "#bold FF v1.0.6#!"
+FF_v1_0_6_changelog_patch: "No patch is necessary on your current savegame."
+FF_v1_0_6_changelog_1: "Updated for Peacock 1.11.2"
