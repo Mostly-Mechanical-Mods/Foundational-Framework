@@ -18,3 +18,7 @@ FF_v1_0_5_changelog_4: "Removed conflict detection capabilities. A Foundational 
 FF_v1_0_6_changelog: "#bold FF v1.0.6#!"
 FF_v1_0_6_changelog_patch: "No patch is necessary on your current savegame."
 FF_v1_0_6_changelog_1: "Updated for Peacock 1.11.2"
+
+FF_v1_0_7_changelog: "#bold FF v1.0.7#!"
+FF_v1_0_7_changelog_patch: "No patch is necessary on your current savegame."
+FF_v1_0_7_changelog_1: "Updated for Scythe 1.12.*"

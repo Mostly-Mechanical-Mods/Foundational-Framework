@@ -15,46 +15,47 @@
 #[KM]
 		trigger_if = { limit = { KM_is_loaded = yes } KM_can_be_knight_trigger = { ARMY_OWNER = $ARMY_OWNER$ }}
 #[/KM]
-	trigger_if = {
-		limit = {
-			$ARMY_OWNER$.culture = {
-				has_cultural_parameter = minimum_prowess_for_knights
+		trigger_if = {
+			limit = {
+				$ARMY_OWNER$.culture = {
+					has_cultural_parameter = minimum_prowess_for_knights
+				}
 			}
+			prowess >= 12
 		}
-		prowess >= 12
-	}
-	can_be_warrior_trigger = { ARMY_OWNER = $ARMY_OWNER$ }
-	trigger_if = {
-		limit = {
+		can_be_warrior_trigger = { ARMY_OWNER = $ARMY_OWNER$ }
+		trigger_if = {
+			limit = {
+				OR = {
+					has_trait = devoted
+					is_clergy = yes
+				}
+			}
 			OR = {
-				has_trait = devoted
-				is_clergy = yes
+				faith = { has_doctrine_parameter = clergy_can_fight }
+				culture = { has_cultural_parameter = culture_clergy_can_fight }
+				AND = {
+					$ARMY_OWNER$.culture = {
+						has_cultural_parameter = high_prowess_ignores_knight_restrictions
+					}
+					prowess >= 10
+				}
 			}
 		}
 		OR = {
-			faith = { has_doctrine_parameter = clergy_can_fight }
-			culture = { has_cultural_parameter = culture_clergy_can_fight }
 			AND = {
 				$ARMY_OWNER$.culture = {
 					has_cultural_parameter = high_prowess_ignores_knight_restrictions
 				}
 				prowess >= 10
+				}
+			has_trait = order_member # Order Members will fight for their faith even if their faith says no
+			NOR = {
+				has_trait = blind
+				has_court_position = master_assassin_court_position #FP3 addition
 			}
 		}
-	}
-	OR = {
-		AND = {
-			$ARMY_OWNER$.culture = {
-				has_cultural_parameter = high_prowess_ignores_knight_restrictions
-			}
-			prowess >= 10
-			}
-		has_trait = order_member # Order Members will fight for their faith even if their faith says no
-		NOT = {
-			has_trait = blind
-		}
-	}
-	is_ai = yes
+		is_ai = yes
 	#[FF]
 	}
 	#[/FF]

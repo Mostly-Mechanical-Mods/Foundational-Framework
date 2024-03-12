@@ -11,6 +11,7 @@ FF_on_game_start = {
 			name = FF_is_loaded
 			value = yes
 		}
+		set_global_variable = FF_v1_0_7
 		set_global_variable = FF_v1_0_6
 		set_global_variable = FF_v1_0_5
 	}
