@@ -1,4 +1,5 @@
 ﻿# Mostly Mechanical Mods
+StA_is_loaded = { always = no }
 PoW_is_loaded = { always = no }
 BMU_is_loaded = { always = no }
 Inherichance_is_loaded = { always = no }
@@ -19,8 +20,21 @@ PoW_ransom_me_interaction_is_valid_showing_failures_only = {}
 PoW_release_from_prison_interaction_send_option_is_shown = {}
 PoW_can_be_knight_trigger = {}
 PoW_can_be_commander_now_trigger = {}
-PoW_travel_plan_on_actions_blocker = { always = no }
-PoW_is_loaded_prisoner_transit_enabled = { always = no }
+PoW_travel_plan_on_actions_blocker = {}
+PoW_is_loaded_prisoner_transit_enabled = {}
+
+# Submission to Authority
+
+StA_refusing_liege_is_treason = {}
+StA_liege_modify_vassal_contract_interaction_can_send = {}
+StA_liege_can_revoke_title = {}
+StA_liege_can_retract_vassal = {}
+StA_council_task_conversion_potential_county = {}
+StA_title_has_higher_crown_authority_than = { save_temporary_scope_as = $AUTHORITY$ }
+StA_can_title_have_law_specific_trigger = {}
+StA_can_change_partition_succession_law_trigger = {}
+StA_vassal_can_declare_internal_war = {}
+StA_vassal_can_declare_all_wars = {}
 
 # KM
 KM_can_be_knight_trigger = { exists = $ARMY_OWNER$ }

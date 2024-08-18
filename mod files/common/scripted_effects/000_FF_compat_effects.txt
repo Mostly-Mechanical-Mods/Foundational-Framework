@@ -3,3 +3,15 @@
 PoW_prisoner_of_war_capture_effect = {}
 PoW_pay_ransom_interaction_on_accept_setup = {}
 PoW_pay_ransom_interaction_on_accept = {}
+
+# Submission to Authority
+
+StA_liberty_faction_on_victory_effect = {}
+StA_liberty_faction_on_white_peace_effect = {}
+StA_liberty_faction_on_defeat_effect = {}
+StA_tyranny_war_on_victory_effect = {}
+StA_tyranny_war_on_white_peace_effect = {}
+StA_tyranny_war_on_defeat_effect = {}
+StA_unite_the_spanish_thrones_decision_effects = {}
+StA_convert_whole_realm_to_feudalism_effect = {}
+StA_form_the_mongol_empire_effect = {}
