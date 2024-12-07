@@ -258,13 +258,13 @@ FF_ambition_get_child_title = {
 	}
 }
 
-FF_ambition_get_gold = {
-	add = {
-		value = ai_greed
-		desc = "FF_ambition_get_gold_greed"
-		format = "FF_VALUE_FORMAT"
-	}
-}
+# FF_ambition_get_gold = {
+# 	add = {
+# 		value = ai_greed
+# 		desc = "FF_ambition_get_gold_greed"
+# 		format = "FF_VALUE_FORMAT"
+# 	}
+# }
 
 FF_ambition_help_friend = {
 	add = {

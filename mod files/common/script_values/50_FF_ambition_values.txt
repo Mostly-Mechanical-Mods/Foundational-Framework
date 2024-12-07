@@ -347,3 +347,70 @@ FF_ambition_get_title = {
 		}
 	}
 }
+
+FF_ambition_get_gold = {
+	if = {
+		limit = { save_temporary_scope_as = PoV }
+	}
+	add = {
+		value = {
+			add = ai_greed
+			min = 0
+		}
+		desc = "FF_ambition_get_gold_greed"
+		format = "FF_VALUE_FORMAT"
+	}
+	multiply = {
+		if = {
+			limit = { scope:tiny_gold_value ?= yes }
+			value = {
+				add = tiny_income_multiplier_value
+				divide = medium_income_multiplier_value
+			}
+			desc = "FF_ambition_get_gold_tiny_amount"
+			format = "FF_VALUE_FORMAT"
+		}
+		else_if = {
+			limit = { scope:minor_gold_value ?= yes }
+			value = {
+				add = minor_income_multiplier_value
+				divide = medium_income_multiplier_value
+			}
+			desc = "FF_ambition_get_gold_minor_amount"
+			format = "FF_VALUE_FORMAT"
+		}
+		else_if = {
+			limit = { scope:medium_gold_value ?= yes }
+			value = 1
+			desc = "FF_ambition_get_gold_medium_amount"
+			format = "FF_VALUE_FORMAT"
+		}
+		else_if = {
+			limit = { scope:major_gold_value ?= yes }
+			value = {
+				add = major_income_multiplier_value
+				divide = medium_income_multiplier_value
+			}
+			desc = "FF_ambition_get_gold_major_amount"
+			format = "FF_VALUE_FORMAT"
+		}
+		else_if = {
+			limit = { scope:massive_gold_value ?= yes }
+			value = {
+				add = massive_income_multiplier_value
+				divide = medium_income_multiplier_value
+			}
+			desc = "FF_ambition_get_gold_massive_amount"
+			format = "FF_VALUE_FORMAT"
+		}
+		else_if = {
+			limit = { scope:monumental_gold_value ?= yes }
+			value = {
+				add = monumental_income_multiplier_value
+				divide = medium_income_multiplier_value
+			}
+			desc = "FF_ambition_get_gold_monumental_amount"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
